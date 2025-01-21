@@ -15,29 +15,37 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
+    - name: Get Tag
+      shell: bash
+      run: |
+        VERSION="${GITHUB_REF#refs/tags/v}"
+
+        if [[ "$VERSION" =~ ^(0|[1-9]\d*)+\.(0|[1-9]\d*)\.(0|[1-9]\d*)$ ]]; then
+          echo "VERSION=v$VERSION" >> $GITHUB_ENV
+        else
+          echo "Tag 'v$VERSION' found but not matching v<SEMVER>" >&2
+          exit -1
+        fi
+
     - name: Setup NodeJS
+      if: ${{ env.VERSION }}
       uses: actions/setup-node@v4
       with:
         node-version: '22'
 
     - uses: pnpm/action-setup@v4
+      if: ${{ env.VERSION }}
       with:
         version: 10
 
     - name: Build
+      if: ${{ env.VERSION }}
       shell: bash
       run: |
-        TAG="${GITHUB_REF#refs/tags/}"
-        if [[ ! "$TAG" =~ ^v(0|[1-9]\d*)+\.(0|[1-9]\d*)\.(0|[1-9]\d*)$ ]]; then
-          echo 'Tag $TAG found but not matching v<SEMVER>' >&2
-          exit -1
-        fi
-
         pnpm install
-        VERSION="v${GITHUB_REF#refs/tags/v}"
         pnpm build --configuration=production
-        echo "VERSION=$VERSION" >> $GITHUB_ENV
-        tar -cvzf "code.photo-$VERSION.tar.gz" dist
+        tar -cvzf "code.photo-${{ env.VERSION }}.tar.gz" dist
+
 
     - name: Release
       if: ${{ env.VERSION }}
