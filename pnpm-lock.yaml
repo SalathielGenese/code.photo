@@ -41,6 +41,9 @@ importers:
       express:
         specifier: ^4.18.2
         version: 4.21.2
+      http2:
+        specifier: ^3.3.7
+        version: 3.3.7
       rxjs:
         specifier: ~7.8.0
         version: 7.8.1
@@ -2543,6 +2546,11 @@ packages:
   http-proxy@1.18.1:
     resolution: {integrity: sha512-7mz/721AbnJwIVbnaSv1Cz3Am0ZLT/UBwkC92VlxhXv/k/BBQfM2fXElQNC27BVGr0uwUpplYPQM9LnaBMR5NQ==}
     engines: {node: '>=8.0.0'}
+
+  http2@3.3.7:
+    resolution: {integrity: sha512-puSi8M8WNlFJm9Pk4c/Mbz9Gwparuj3gO9/RRO5zv6piQ0FY+9Qywp0PdWshYgsMJSalixFY7eC6oPu0zRxLAQ==}
+    engines: {node: '>=0.12.0 <9.0.0'}
+    deprecated: Use the built-in module in node 9.0.0 or newer, instead
 
   https-proxy-agent@7.0.6:
     resolution: {integrity: sha512-vK9P5/iUfdl95AI+JVyUuIcVtd4ofvtrOr3HNtM2yxC9bnMbEdp3x01OhQNnjb8IJYi38VlTE3mBXwcfvywuSw==}
@@ -6924,6 +6932,8 @@ snapshots:
       requires-port: 1.0.0
     transitivePeerDependencies:
       - debug
+
+  http2@3.3.7: {}
 
   https-proxy-agent@7.0.6:
     dependencies:
