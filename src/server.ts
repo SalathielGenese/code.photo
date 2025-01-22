@@ -1,6 +1,8 @@
 import {APP_BASE_HREF} from '@angular/common';
 import {CommonEngine, isMainModule} from '@angular/ssr/node';
 import express from 'express';
+import {createSecureServer} from 'http2';
+import {readFileSync} from 'node:fs';
 import {dirname, join, resolve} from 'node:path';
 import {fileURLToPath} from 'node:url';
 import bootstrap from './main.server';
@@ -58,10 +60,13 @@ app.get('**', (req, res, next) => {
  * The server listens on the port defined by the `PORT` environment variable, or defaults to 4000.
  */
 if (isMainModule(import.meta.url)) {
+  const serverCertificatePath = process.env['SERVER_CERTIFICATE_PATH'];
+  const serverKeyPath = process.env['SERVER_KEY_PATH'];
   const port = process.env['PORT'] || 4000;
-  app.listen(port, onServerStarted);
+  const https = (serverCertificatePath || serverKeyPath)
+    ? createSecureServer({key: readFileSync(serverKeyPath!), cert: readFileSync(serverCertificatePath!)}) : null;
 
-  function onServerStarted() {
+  (https ?? app).listen(port, () => {
     console.log(`Node Express server listening on http://localhost:${port}`);
-  }
+  });
 }
