@@ -1,0 +1,30 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ include "helm.fullname" . }}
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+    nginx.ingress.kubernetes.io/ssl-passthrough: "true"
+  labels:
+    app: {{ include "helm.fullname" . }}
+spec:
+  ingressClassName: nginx
+  rules:
+  {{ range .Values.app.hosts }}
+  - host: {{ . }}
+    http:
+      paths:
+      - backend:
+          service:
+            port:
+              name: https
+            name: {{ include "helm.fullname" $ }}
+        path: /
+        pathType: Prefix
+    {{ end }}
+  tls:
+  - hosts:
+    {{ range .Values.app.hosts }}
+    - {{ . }}
+    {{ end }}
+    secretName: {{ .Values.app.certificate.secret }}

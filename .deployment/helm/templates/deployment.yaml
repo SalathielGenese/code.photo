@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "helm.fullname" . }}
+  labels:
+    app: {{ include "helm.fullname" . }}
+spec:
+  selector:
+    matchLabels:
+      app: {{ include "helm.fullname" . }}
+  template:
+    metadata:
+      labels:
+        app: {{ include "helm.fullname" . }}
+    spec:
+      containers:
+      - imagePullPolicy: Always
+        name: {{ include "helm.fullname" . }}
+        env:
+        - name: SERVER_KEY_PATH
+          value: {{ .Values.app.certificate.mountPath.key }}
+        - name: SERVER_CERTIFICATE_PATH
+          value: {{ .Values.app.certificate.mountPath.certificate }}
+        image: {{ .Values.app.image.repository }}:{{ .Values.app.image.tag }}
+        ports:
+        - name: https
+          protocol: TCP
+          containerPort: 443
+        resources:
+          limits:
+            cpu: 500m
+            memory: 1Gi
+        volumeMounts:
+        - name: server-key
+          mountPath: {{ .Values.app.certificate.mountPath.key }}
+        - name: server-certificate
+          mountPath: {{ .Values.app.certificate.mountPath.certificate }}
+      volumes:
+      - configMap:
+          defaultMode: 420
+          name: nginx-config
+        name: nginx-config
+      - name: server-key
+        hostPath:
+          type: File
+          path: {{ .Values.app.certificate.hostPath.key }}
+      - name: server-certificate
+        hostPath:
+          type: File
+          path: {{ .Values.app.certificate.hostPath.certificate }}
