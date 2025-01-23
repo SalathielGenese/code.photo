@@ -21,7 +21,6 @@ jobs:
     - name: Get Tag
       shell: bash
       run: |
-        set -euxo
         VERSION=$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
           "https://api.github.com/repos/${{ github.repository }}/actions/runs/${{ github.event.workflow_run.id }}" \
           | jq -r '.head_branch')
@@ -38,7 +37,7 @@ jobs:
       if: ${{ env.VERSION }}
       uses: docker/setup-buildx-action@v3
 
-    - name: Build
+    - name: Build & Push
       if: ${{ env.VERSION }}
       shell: bash
       run: |
@@ -53,3 +52,27 @@ jobs:
           --tag ghcr.io/$REPO_LOWER:${{ env.VERSION }} \
           .
         docker push ghcr.io/$REPO_LOWER:${{ env.VERSION }}
+        echo "REPO_LOWER=$REPO_LOWER" >> $GITHUB_ENV
+
+    - name: Setup Helm Chart
+      if: ${{ env.VERSION }}
+      uses: azure/setup-helm@v4.2.0
+
+    - name: Setup Kubernetes Controller
+      if: ${{ env.VERSION }}
+      uses: azure/k8s-set-context@v4
+      with:
+        kubeconfig: ${{ secrets.KUBE_CONFIG }}
+
+    - name: Deploy
+      if: ${{ env.VERSION }}
+      shell: bash
+      run: |
+        cat <<EOT >> .deployment/helm/values.yaml
+        ${{ secrets.HELM_VALUES }}
+        EOT
+        helm upgrade \
+          app .deployment/helm --install \
+          --set app.image.tag="${{ env.VERSION }}" \
+          --namespace ${{ secrets.KUBE_NAMESPACE }} \
+          --set app.image.repository="ghcr.io/${{ env.REPO_LOWER }}"

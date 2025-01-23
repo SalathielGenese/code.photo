@@ -46,7 +46,6 @@ jobs:
         pnpm build --configuration=production
         tar -cvzf "code.photo-${{ env.VERSION }}.tar.gz" dist
 
-
     - name: Release
       if: ${{ env.VERSION }}
       uses: softprops/action-gh-release@v2
