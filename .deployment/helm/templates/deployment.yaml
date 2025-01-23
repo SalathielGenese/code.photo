@@ -19,6 +19,8 @@ spec:
         env:
         - name: PORT
           value: "443"
+        - name: HOST
+          value: "0.0.0.0"
         - name: SERVER_KEY_PATH
           value: {{ .Values.app.certificate.mountPath.key }}
         - name: SERVER_CERTIFICATE_PATH

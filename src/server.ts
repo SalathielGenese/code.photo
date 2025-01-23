@@ -60,13 +60,18 @@ app.get('**', (req, res, next) => {
  * The server listens on the port defined by the `PORT` environment variable, or defaults to 4000.
  */
 if (isMainModule(import.meta.url)) {
-  const serverCertificatePath = process.env['SERVER_CERTIFICATE_PATH'];
-  const serverKeyPath = process.env['SERVER_KEY_PATH'];
-  const port = process.env['PORT'] || 4000;
-  const https = (serverCertificatePath || serverKeyPath)
-    ? createSecureServer({key: readFileSync(serverKeyPath!), cert: readFileSync(serverCertificatePath!)}) : null;
-  const server = (https ?? app).listen(port, () => {
-    console.error(`Node Express server listening on http://localhost:${port}`);
+  const {
+    SERVER_CERTIFICATE_PATH,
+    HOST = 'localhost',
+    SERVER_KEY_PATH,
+    PORT = 4000,
+  } = process.env;
+  const https = (SERVER_CERTIFICATE_PATH || SERVER_KEY_PATH)
+    ? createSecureServer({key: readFileSync(SERVER_KEY_PATH!), cert: readFileSync(SERVER_CERTIFICATE_PATH!)})
+    : null;
+  const server = (https ?? app).listen(+PORT, HOST, () => {
+    const protocol = `http${(SERVER_CERTIFICATE_PATH || SERVER_KEY_PATH) ? 's' : ''}`;
+    console.error(`Node Express server listening on ${protocol}://${HOST}:${PORT}`);
   });
   process.on('SIGTERM', () => server.close());
   process.on('SIGINT', () => server.close());
