@@ -54,25 +54,23 @@ jobs:
         docker push ghcr.io/$REPO_LOWER:${{ env.VERSION }}
         echo "REPO_LOWER=$REPO_LOWER" >> $GITHUB_ENV
 
-    - name: Setup Helm Chart
-      if: ${{ env.VERSION }}
-      uses: azure/setup-helm@v4.2.0
-
-    - name: Setup Kubernetes Controller
-      if: ${{ env.VERSION }}
-      uses: azure/k8s-set-context@v4
-      with:
-        kubeconfig: ${{ secrets.KUBE_CONFIG }}
-
     - name: Deploy
       if: ${{ env.VERSION }}
+      env:
+        HELM_VALUES: ${{ secrets.HELM_VALUES }}
+        KUBE_CONFIG: ${{ secrets.KUBE_CONFIG }}
       shell: bash
       run: |
-        cat <<EOT >> .deployment/helm/values.yaml
-        ${{ secrets.HELM_VALUES }}
-        EOT
+        echo "$HELM_VALUES" | base64 --decode >> .deployment/helm/values.yaml
+        echo "$KUBE_CONFIG" | base64 --decode >> .kube-config.yaml
+
+        curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+        curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
+        export KUBECONFIG="$PWD/.kube-config.yaml"
+        export PATH="$PWD:$PATH"
+        chmod a+x kubectl
+
         helm upgrade \
           app .deployment/helm --install \
           --set app.image.tag="${{ env.VERSION }}" \
-          --namespace ${{ secrets.KUBE_NAMESPACE }} \
           --set app.image.repository="ghcr.io/${{ env.REPO_LOWER }}"
