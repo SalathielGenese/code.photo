@@ -17,6 +17,8 @@ spec:
       - imagePullPolicy: Always
         name: {{ include "helm.fullname" . }}
         env:
+        - name: PORT
+          value: "443"
         - name: SERVER_KEY_PATH
           value: {{ .Values.app.certificate.mountPath.key }}
         - name: SERVER_CERTIFICATE_PATH
@@ -36,10 +38,6 @@ spec:
         - name: server-certificate
           mountPath: {{ .Values.app.certificate.mountPath.certificate }}
       volumes:
-      - configMap:
-          defaultMode: 420
-          name: nginx-config
-        name: nginx-config
       - name: server-key
         hostPath:
           type: File
