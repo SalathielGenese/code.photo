@@ -1,7 +1,7 @@
 import {APP_BASE_HREF} from '@angular/common';
 import {CommonEngine, isMainModule} from '@angular/ssr/node';
 import express from 'express';
-import {createSecureServer} from 'http2';
+import {createSecureServer} from 'node:http2';
 import {readFileSync} from 'node:fs';
 import {dirname, join, resolve} from 'node:path';
 import {fileURLToPath} from 'node:url';
@@ -66,13 +66,16 @@ if (isMainModule(import.meta.url)) {
     SERVER_KEY_PATH,
     PORT = 4000,
   } = process.env;
-  const https = (SERVER_CERTIFICATE_PATH || SERVER_KEY_PATH)
-    ? createSecureServer({key: readFileSync(SERVER_KEY_PATH!), cert: readFileSync(SERVER_CERTIFICATE_PATH!)})
-    : null;
-  const server = (https ?? app).listen(+PORT, HOST, () => {
+  const server = (SERVER_CERTIFICATE_PATH || SERVER_KEY_PATH)
+    ? createSecureServer({
+      key: readFileSync(SERVER_KEY_PATH!),
+      cert: readFileSync(SERVER_CERTIFICATE_PATH!),
+    }, (req, res) => app(req as any, res as any))
+    : app;
+  const handle = server.listen(+PORT, HOST, () => {
     const protocol = `http${(SERVER_CERTIFICATE_PATH || SERVER_KEY_PATH) ? 's' : ''}`;
     console.error(`Node Express server listening on ${protocol}://${HOST}:${PORT}`);
   });
-  process.on('SIGTERM', () => server.close());
-  process.on('SIGINT', () => server.close());
+  process.on('SIGTERM', () => handle.close());
+  process.on('SIGINT', () => handle.close());
 }
