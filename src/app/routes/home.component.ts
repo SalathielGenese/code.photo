@@ -1,5 +1,6 @@
 import {Component, DestroyRef, OnInit} from '@angular/core';
 import {ActivatedRoute, Router, RouterLink} from '@angular/router';
+import {firstValueFrom} from 'rxjs';
 
 @Component({
   selector: '[appHomePage]',
@@ -27,9 +28,12 @@ export class HomeComponent implements OnInit {
 
   ngOnInit() {
     this.destroyRef.onDestroy(() => subscription.unsubscribe());
-    const subscription = this.activatedRoute.params.subscribe(({language}) => {
+    const subscription = this.activatedRoute.params.subscribe(async ({language}) => {
       if (language) this.lang = language;
       else void this.router.navigate([this.#language], {
+        fragment: await firstValueFrom(this.activatedRoute.fragment) ?? undefined,
+        queryParams: await firstValueFrom(this.activatedRoute.queryParams),
+        replaceUrl: true,
         relativeTo: null,
       })
     });
