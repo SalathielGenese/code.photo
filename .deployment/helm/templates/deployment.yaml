@@ -18,28 +18,15 @@ spec:
         name: {{ include "helm.fullname" . }}
         env:
         - name: PORT
-          value: "443"
+          value: "80"
         - name: HOST
           value: "0.0.0.0"
-        - name: CERTIFICATE_PATH
-          value: {{ .Values.app.certificate.mountPath }}/tls.crt
-        - name: CERTIFICATE_KEY_PATH
-          value: {{ .Values.app.certificate.mountPath }}/tls.key
-        - name: CERTIFICATE_AUTHORITY_PATH
-          value: {{ .Values.app.certificate.mountPath }}/ca.pem
         image: {{ .Values.app.image.repository }}:{{ .Values.app.image.tag }}
         ports:
-        - name: https
+        - name: http
           protocol: TCP
-          containerPort: 443
+          containerPort: 80
         resources:
           limits:
             cpu: 500m
             memory: 1Gi
-        volumeMounts:
-        - name: {{ .Values.app.certificate.secret }}
-          mountPath: {{ .Values.app.certificate.mountPath }}
-      volumes:
-      - name: {{ .Values.app.certificate.secret }}
-        secret:
-          secretName: {{ .Values.app.certificate.secret }}

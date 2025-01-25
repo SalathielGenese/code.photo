@@ -1,8 +1,6 @@
 import {APP_BASE_HREF} from '@angular/common';
 import {CommonEngine, isMainModule} from '@angular/ssr/node';
 import express from 'express';
-import {createSecureServer} from 'node:http2';
-import {readFileSync} from 'node:fs';
 import {dirname, join, resolve} from 'node:path';
 import {fileURLToPath} from 'node:url';
 import bootstrap from './main.server';
@@ -60,23 +58,9 @@ app.get('**', (req, res, next) => {
  * The server listens on the port defined by the `PORT` environment variable, or defaults to 4000.
  */
 if (isMainModule(import.meta.url)) {
-  const {
-    CERTIFICATE_AUTHORITY_PATH,
-    CERTIFICATE_KEY_PATH,
-    HOST = 'localhost',
-    CERTIFICATE_PATH,
-    PORT = 4000,
-  } = process.env;
-  let tlsSupported = CERTIFICATE_AUTHORITY_PATH || CERTIFICATE_PATH || CERTIFICATE_KEY_PATH;
-  const server = tlsSupported
-    ? createSecureServer({
-      ca: readFileSync(CERTIFICATE_AUTHORITY_PATH!),
-      key: readFileSync(CERTIFICATE_KEY_PATH!),
-      cert: readFileSync(CERTIFICATE_PATH!),
-    }, app as any)
-    : app;
-  const handle = server.listen(+PORT, HOST, () =>
-    console.error(`Node Express server listening at http${tlsSupported ? 's' : ''}://${HOST}:${PORT}`));
-  process.on('SIGTERM', () => handle.close());
-  process.on('SIGINT', () => handle.close());
+  const {HOST = 'localhost', PORT = 4000} = process.env;
+  const server = app.listen(+PORT, HOST, () =>
+    console.error(`Node Express server listening at http://${HOST}:${PORT}`));
+  process.on('SIGTERM', () => server.close());
+  process.on('SIGINT', () => server.close());
 }

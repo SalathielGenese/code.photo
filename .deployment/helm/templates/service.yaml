@@ -6,10 +6,10 @@ metadata:
     app: {{ include "helm.fullname" . }}
 spec:
   ports:
-  - port: 443
-    name: https
+  - port: 80
+    name: http
     protocol: TCP
-    targetPort: https
+    targetPort: http
   selector:
     app: {{ include "helm.fullname" . }}
   type: ClusterIP

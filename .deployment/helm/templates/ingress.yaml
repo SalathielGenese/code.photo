@@ -4,7 +4,6 @@ metadata:
   name: {{ include "helm.fullname" . }}
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /
-    nginx.ingress.kubernetes.io/ssl-passthrough: "true"
   labels:
     app: {{ include "helm.fullname" . }}
 spec:
@@ -17,7 +16,7 @@ spec:
       - backend:
           service:
             port:
-              name: https
+              name: http
             name: {{ include "helm.fullname" $ }}
         path: /
         pathType: Prefix
