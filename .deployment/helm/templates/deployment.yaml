@@ -21,10 +21,12 @@ spec:
           value: "443"
         - name: HOST
           value: "0.0.0.0"
-        - name: SERVER_KEY_PATH
-          value: {{ .Values.app.certificate.mountPath.key }}
-        - name: SERVER_CERTIFICATE_PATH
-          value: {{ .Values.app.certificate.mountPath.certificate }}
+        - name: CERTIFICATE_PATH
+          value: {{ .Values.app.certificate.mountPath }}/tls.crt
+        - name: CERTIFICATE_KEY_PATH
+          value: {{ .Values.app.certificate.mountPath }}/tls.key
+        - name: CERTIFICATE_AUTHORITY_PATH
+          value: {{ .Values.app.certificate.mountPath }}/ca.pem
         image: {{ .Values.app.image.repository }}:{{ .Values.app.image.tag }}
         ports:
         - name: https
@@ -35,16 +37,9 @@ spec:
             cpu: 500m
             memory: 1Gi
         volumeMounts:
-        - name: server-key
-          mountPath: {{ .Values.app.certificate.mountPath.key }}
-        - name: server-certificate
-          mountPath: {{ .Values.app.certificate.mountPath.certificate }}
+        - name: {{ .Values.app.certificate.secret }}
+          mountPath: {{ .Values.app.certificate.mountPath }}
       volumes:
-      - name: server-key
-        hostPath:
-          type: File
-          path: {{ .Values.app.certificate.hostPath.key }}
-      - name: server-certificate
-        hostPath:
-          type: File
-          path: {{ .Values.app.certificate.hostPath.certificate }}
+      - name: {{ .Values.app.certificate.secret }}
+        secret:
+          secretName: {{ .Values.app.certificate.secret }}

@@ -61,21 +61,22 @@ app.get('**', (req, res, next) => {
  */
 if (isMainModule(import.meta.url)) {
   const {
-    SERVER_CERTIFICATE_PATH,
+    CERTIFICATE_AUTHORITY_PATH,
+    CERTIFICATE_KEY_PATH,
     HOST = 'localhost',
-    SERVER_KEY_PATH,
+    CERTIFICATE_PATH,
     PORT = 4000,
   } = process.env;
-  const server = (SERVER_CERTIFICATE_PATH || SERVER_KEY_PATH)
+  let tlsSupported = CERTIFICATE_AUTHORITY_PATH || CERTIFICATE_PATH || CERTIFICATE_KEY_PATH;
+  const server = tlsSupported
     ? createSecureServer({
-      key: readFileSync(SERVER_KEY_PATH!),
-      cert: readFileSync(SERVER_CERTIFICATE_PATH!),
-    }, (req, res) => app(req as any, res as any))
+      ca: readFileSync(CERTIFICATE_AUTHORITY_PATH!),
+      key: readFileSync(CERTIFICATE_KEY_PATH!),
+      cert: readFileSync(CERTIFICATE_PATH!),
+    }, app as any)
     : app;
-  const handle = server.listen(+PORT, HOST, () => {
-    const protocol = `http${(SERVER_CERTIFICATE_PATH || SERVER_KEY_PATH) ? 's' : ''}`;
-    console.error(`Node Express server listening on ${protocol}://${HOST}:${PORT}`);
-  });
+  const handle = server.listen(+PORT, HOST, () =>
+    console.error(`Node Express server listening at http${tlsSupported ? 's' : ''}://${HOST}:${PORT}`));
   process.on('SIGTERM', () => handle.close());
   process.on('SIGINT', () => handle.close());
 }
