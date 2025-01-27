@@ -6,7 +6,7 @@ import {L10nPipe} from '../pipes/l10n.pipe';
 
 @Component({
   standalone: true,
-  selector: '[appHomePage]',
+  selector: 'section[appHomePage]',
   template: `
     <nav>
       <a routerLink="/">None</a>
