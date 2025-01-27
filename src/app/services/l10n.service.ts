@@ -1,9 +1,8 @@
-import {computed, DestroyRef, Inject, Injectable, Optional, Signal, signal, WritableSignal} from '@angular/core';
+import {computed, DestroyRef, Injectable, Signal, signal, WritableSignal} from '@angular/core';
 import {Router} from '@angular/router';
 import {takeUntilDestroyed, toObservable} from '@angular/core/rxjs-interop';
 import {filter, map, mergeMap, tap} from 'rxjs';
 import {HttpClient} from '@angular/common/http';
-import {HOST} from '../tokens/host.token';
 
 @Injectable({providedIn: 'root'})
 export class L10nService {
@@ -20,8 +19,7 @@ export class L10nService {
 
   constructor(http: HttpClient,
               destroyRef: DestroyRef,
-              private router: Router,
-              @Optional() @Inject(HOST) host?: string) {
+              private router: Router) {
     this.#language = signal<string>(this.resolveLanguage());
     this.cache = computed(() => this.#cache()[this.#language()] ?? {});
 
@@ -29,7 +27,7 @@ export class L10nService {
       .pipe(filter(language => !this.#loading[language]))
       .pipe(tap(language => this.#loading[language] = true))
       .pipe(mergeMap(language => http
-        .get<Record<string, string>>(`${host}/l10n/${language}.json`)
+        .get<Record<string, string>>(`@host/l10n/${language}.json`)
         .pipe(map(content => ({[language]: content})))))
       .pipe(takeUntilDestroyed(destroyRef))
       .subscribe(content => this.#cache.set({...this.#cache(), ...content}));
