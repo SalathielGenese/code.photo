@@ -2,6 +2,7 @@ import {Component, effect, input, WritableSignal} from '@angular/core';
 import {RouterLink} from '@angular/router';
 import {L10nService} from '../service/l10n.service';
 import {JsonPipe} from '@angular/common';
+import {L10nPipe} from '../pipes/l10n.pipe';
 
 @Component({
   standalone: true,
@@ -14,7 +15,7 @@ import {JsonPipe} from '@angular/common';
       -
       <a (click)="l10nService.setLanguage('fr')">Français</a>
     </nav>
-    Home... ~{{ l10nService.language() }}~
+    {{ 'menu.home' | l10n }}... ~{{ l10nService.language() }}~
     <pre>{{ l10nService.cache() | json }}</pre>
   `,
   providers: [
@@ -23,6 +24,7 @@ import {JsonPipe} from '@angular/common';
   imports: [
     RouterLink,
     JsonPipe,
+    L10nPipe,
   ]
 })
 export class HomeComponent {
