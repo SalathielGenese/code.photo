@@ -1,42 +1,33 @@
-import {DestroyRef, Injectable} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
-import {combineLatestWith, take} from 'rxjs';
+import {Injectable, Signal, signal, WritableSignal} from '@angular/core';
+import {Router} from '@angular/router';
 
-@Injectable()
+@Injectable({providedIn: 'root'})
 export class L10nService {
   static readonly LANGUAGES: { tag: string, text: string }[] = [
     {tag: 'fr', text: 'Français'},
     {tag: 'en', text: 'English'},
   ];
-  readonly #cache: Record<string, object> = {};
-  #lang?: string;
 
-  constructor(private readonly router: Router,
-              private readonly destroyRef: DestroyRef,
-              private readonly activatedRoute: ActivatedRoute) {
+  readonly #language!: WritableSignal<string>;
+
+  constructor(private router: Router) {
+    this.#language = signal<string>(this.resolveLanguage());
   }
 
-  setLanguage({replaceUrl = false, language}: { language?: string, replaceUrl?: boolean } = {}) {
-    language ??= this.language;
-
-    if (this.#lang != language) {
-      this.#lang = language;
-      this.activatedRoute.fragment
-        .pipe(combineLatestWith(this.activatedRoute.queryParams))
-        .pipe(take(1))
-        .subscribe(([fragment, queryParams]) => {
-          void this.router.navigate([this.#lang], {
-            fragment: fragment ?? undefined,
-            relativeTo: null,
-            queryParams,
-            replaceUrl,
-          });
-        });
-    }
+  setLanguage(language: string) {
+    void this.router.navigate([language].filter(_ => _), {
+      queryParamsHandling: "preserve",
+      preserveFragment: true,
+      relativeTo: null,
+    });
   }
 
-  get language() {
-    // TODO: resolve language
+  get language(): Signal<string> {
+    return this.#language;
+  }
+
+  resolveLanguage() {
+    // TODO: Resolve a hierarchical language
     return 'en';
   }
 }

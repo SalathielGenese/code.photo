@@ -1,5 +1,5 @@
-import {Component, DestroyRef, OnInit} from '@angular/core';
-import {ActivatedRoute, RouterLink} from '@angular/router';
+import {Component, effect, input, WritableSignal} from '@angular/core';
+import {RouterLink} from '@angular/router';
 import {L10nService} from '../service/l10n.service';
 
 @Component({
@@ -8,11 +8,11 @@ import {L10nService} from '../service/l10n.service';
     <nav>
       <a routerLink="/">None</a>
       -
-      <a (click)="l10nService.setLanguage({language: 'en'})">English</a>
+      <a (click)="l10nService.setLanguage('en')">English</a>
       -
-      <a (click)="l10nService.setLanguage({language: 'fr'})">Français</a>
+      <a (click)="l10nService.setLanguage('fr')">Français</a>
     </nav>
-    Home... '{{ lang }}'
+    Home... ~{{ l10nService.language() }}~
   `,
   providers: [
     L10nService,
@@ -21,22 +21,10 @@ import {L10nService} from '../service/l10n.service';
     RouterLink,
   ]
 })
-export class HomeComponent implements OnInit {
-  protected lang?: string;
+export class HomeComponent {
+  protected language = input<string>();
 
-  constructor(private readonly destroyRef: DestroyRef,
-              protected readonly l10nService: L10nService,
-              private readonly activatedRoute: ActivatedRoute,) {
-  }
-
-  ngOnInit() {
-    this.destroyRef.onDestroy(() => subscription.unsubscribe());
-    const subscription = this.activatedRoute.params.subscribe(async ({language}) => {
-      if (language) {
-        this.lang = language;
-      } else {
-        this.l10nService.setLanguage({replaceUrl: true});
-      }
-    });
+  constructor(protected l10nService: L10nService) {
+    effect(() => (l10nService.language as WritableSignal<string>).set(this.language()!));
   }
 }
