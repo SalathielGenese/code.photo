@@ -1,34 +1,31 @@
-import {Component, effect, input, WritableSignal} from '@angular/core';
-import {RouterLink} from '@angular/router';
+import {Component, effect, input, signal, WritableSignal} from '@angular/core';
 import {L10nService} from '../services/l10n.service';
+import {SettingsComponent} from '../components/settings.component';
+import {Settings} from '../domains/settings.domain';
 import {JsonPipe} from '@angular/common';
-import {L10nPipe} from '../pipes/l10n.pipe';
 
 @Component({
   standalone: true,
   selector: 'section[appHomePage]',
   template: `
-    <nav>
-      <a routerLink="/">None</a>
-      -
-      <a (click)="l10nService.setLanguage('en')">English</a>
-      -
-      <a (click)="l10nService.setLanguage('fr')">Français</a>
-    </nav>
-    {{ 'menu.home' | l10n }}... ~{{ l10nService.language() }}~
-    <pre>{{ l10nService.cache() | json }}</pre>
+    <aside appSettings [(settings)]="settings"></aside>
+
+    <fieldset>
+      <pre>{{ settings() | json }}</pre>
+    </fieldset>
   `,
   providers: [
     L10nService,
   ],
   imports: [
-    RouterLink,
+    SettingsComponent,
     JsonPipe,
-    L10nPipe,
   ]
 })
 export class HomeComponent {
   protected language = input<string>();
+
+  protected readonly settings = signal<Settings>({});
 
   constructor(protected l10nService: L10nService) {
     effect(() => (l10nService.language as WritableSignal<string>).set(this.language()!));
