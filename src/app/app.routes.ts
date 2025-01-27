@@ -1,7 +1,7 @@
 import {ActivatedRouteSnapshot, Router, Routes} from '@angular/router';
 import {HomeComponent} from './routes/home.component';
 import {Component, inject} from '@angular/core';
-import {L10nService} from './service/l10n.service';
+import {L10nService} from './services/l10n.service';
 
 @Component({
   selector: 'section[appNever]',

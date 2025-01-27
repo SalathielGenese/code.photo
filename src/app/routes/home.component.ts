@@ -1,6 +1,6 @@
 import {Component, effect, input, WritableSignal} from '@angular/core';
 import {RouterLink} from '@angular/router';
-import {L10nService} from '../service/l10n.service';
+import {L10nService} from '../services/l10n.service';
 import {JsonPipe} from '@angular/common';
 import {L10nPipe} from '../pipes/l10n.pipe';
 
