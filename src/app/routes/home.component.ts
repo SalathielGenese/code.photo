@@ -19,6 +19,13 @@ import Prism from 'prismjs';
 
 @Component({
   standalone: true,
+  providers: [
+    L10nService,
+  ],
+  imports: [
+    EditorComponent,
+    SettingsComponent,
+  ],
   selector: 'section[appHomePage]',
   template: `
     <aside appSettings [(settings)]="settings"></aside>
@@ -27,13 +34,6 @@ import Prism from 'prismjs';
              [settings]="settings()"
              appEditor></article>
   `,
-  providers: [
-    L10nService,
-  ],
-  imports: [
-    SettingsComponent,
-    EditorComponent,
-  ]
 })
 export class HomeComponent {
   protected language = input<string>();

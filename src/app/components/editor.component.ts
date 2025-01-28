@@ -1,6 +1,6 @@
 import {Component, computed, ElementRef, Inject, input, output, PLATFORM_ID, viewChild} from '@angular/core';
 import {Settings} from '../domains/settings.domain';
-import {isPlatformBrowser, JsonPipe, NgClass} from '@angular/common';
+import {isPlatformBrowser, NgClass} from '@angular/common';
 import Prism from "prismjs";
 import "prismjs/plugins/autoloader/prism-autoloader";
 
@@ -8,11 +8,9 @@ import "prismjs/plugins/autoloader/prism-autoloader";
   standalone: true,
   selector: '[appEditor]',
   imports: [
-    JsonPipe,
-    NgClass
+    NgClass,
   ],
   template: `
-    <pre>{{ settings() | json }}</pre>
     <pre [attr.data-start]="settings()?.lineNumbersStart ?? 1"
          [attr.data-line]="settings()?.lineHighlight"
          [ngClass]="classes()"
