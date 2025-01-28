@@ -16,6 +16,7 @@ import {Settings} from '../domains/settings.domain';
 import {EditorComponent} from '../components/editor.component';
 import {isPlatformServer} from '@angular/common';
 import Prism from 'prismjs';
+import {Router} from '@angular/router';
 
 @Component({
   standalone: true,
@@ -30,16 +31,26 @@ import Prism from 'prismjs';
   template: `
     <aside appSettings [(settings)]="settings"></aside>
 
-    <article (sources)="editorRef()?.highlight(true)"
+    <article (sources)="editorRef()?.highlight(true); updateUrl($event)"
              [settings]="settings()"
              appEditor></article>
   `,
 })
 export class HomeComponent {
+  protected q = input<string>();
   protected language = input<string>();
 
-  protected editorRef = viewChild(EditorComponent);
+  protected readonly updateUrl = (content = '') =>
+    this.settings().language && this.router.navigate([this.settings().language], {
+      queryParamsHandling: 'merge',
+      preserveFragment: true,
+      queryParams: {
+        q: btoa(JSON.stringify({...this.settings(), content})),
+      },
+      relativeTo: null,
+    });
   protected readonly settings = signal<Settings>({});
+  protected readonly editorRef = viewChild(EditorComponent);
 
   readonly #theme = computed(() => this.settings()?.theme);
   readonly #language = computed(() => this.settings()?.language);
@@ -48,7 +59,11 @@ export class HomeComponent {
   readonly #lineNumbersStart = computed(() => this.settings()?.lineNumbersStart);
 
   constructor(l10nService: L10nService,
-              @Inject(PLATFORM_ID) private readonly platformId: Object) {
+              private readonly router: Router,
+              @Inject(PLATFORM_ID) platformId: Object) {
+    // NOTE: Update the q query param with settings and content
+    effect(() => this.settings() && this.updateUrl());
+
     // NOTE: Update the language signal, from route parameter, to its app-wide Single Source of Truth
     effect(() => (l10nService.language as WritableSignal<string>).set(this.language()!));
 
