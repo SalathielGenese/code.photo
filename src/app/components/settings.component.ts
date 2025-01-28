@@ -4,12 +4,19 @@ import {L10nPipe} from '../pipes/l10n.pipe';
 import {Settings} from '../domains/settings.domain';
 import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 import {filter} from 'rxjs';
+import {JsonPipe} from '@angular/common';
 
 @Component({
   standalone: true,
+  imports: [
+    L10nPipe,
+    ReactiveFormsModule,
+    JsonPipe,
+  ],
   selector: '[appSettings]',
   template: `
     <form [formGroup]="form">
+      <pre>{{ form.controls.lineHighlight.errors | json }}</pre>
       <label>
         <input type="text" formControlName="language" list="languages">
         <span>{{ 'settings.programming-language' | l10n }}</span>
@@ -39,12 +46,13 @@ import {filter} from 'rxjs';
         <input type="number" formControlName="lineNumbersStart">
         <span>{{ 'settings.lineNumbersStart' | l10n }}</span>
       </label>
+
+      <label>
+        <input type="text" formControlName="lineHighlight">
+        <span>{{ 'settings.lineHighlight' | l10n }}</span>
+      </label>
     </form>
   `,
-  imports: [
-    ReactiveFormsModule,
-    L10nPipe,
-  ],
 })
 export class SettingsComponent implements OnInit {
   readonly settings = model<Settings>();
@@ -53,10 +61,13 @@ export class SettingsComponent implements OnInit {
   protected readonly themes = 'coy,dark,funky,okaidia,solarizedlight,tomorrow,twilight'.split(',');
   protected form!: FormGroup<{
     lineNumbersStart: FormControl<number | null>;
+    lineHighlight: FormControl<string | null>;
     lineNumbers: FormControl<boolean | null>;
     language: FormControl<string | null>;
     theme: FormControl<string | null>;
   }>;
+
+  readonly #LINE_HIGHLIGHT_REGEX = /^(\s*[1-9]\d*\s*(-\s*[1-9]\d*\s*)?)(,\s*[1-9]\d*\s*(-\s*[1-9]\d*\s*)?)*$/;
 
   constructor(private readonly fb: FormBuilder,
               private readonly destroyRef: DestroyRef) {
@@ -77,6 +88,9 @@ export class SettingsComponent implements OnInit {
       ]),
       theme: this.fb.control('coy', [
         ({value: _}) => !_ || this.themes.includes(_) ? null : {invalid: true},
+      ]),
+      lineHighlight: this.fb.control<string | null>(null, [
+        ({value: _}) => !_ || this.#LINE_HIGHLIGHT_REGEX.test(_) ? null : {invalid: true},
       ]),
     });
     this.form.valueChanges

@@ -44,6 +44,7 @@ export class HomeComponent {
   readonly #theme = computed(() => this.settings()?.theme);
   readonly #language = computed(() => this.settings()?.language);
   readonly #lineNumbers = computed(() => this.settings()?.lineNumbers);
+  readonly #lineHighlight = computed(() => this.settings()?.lineHighlight);
   readonly #lineNumbersStart = computed(() => this.settings()?.lineNumbersStart);
 
   constructor(l10nService: L10nService,
@@ -96,6 +97,29 @@ export class HomeComponent {
     effect(() => {
       this.#lineNumbersStart();
       if (untracked(this.#lineNumbers)) this.editorRef()?.highlight();
-    })
+    });
+
+    // NOTE: Track and update line highlight
+    effect(async () => {
+      if (this.#lineHighlight()?.trim() && !document.querySelector(`link[href^="/prismjs/plugins/line-highlight/"]`)) {
+        await Promise.allSettled([
+          new Promise((onload, onerror) => document.head.appendChild(Object.assign(document.createElement('link'), {
+            href: `/prismjs/plugins/line-highlight/prism-line-highlight.min.css`,
+            rel: 'stylesheet',
+            onerror,
+            onload,
+          }))),
+          new Promise((onload, onerror) => document.body.appendChild(Object.assign(document.createElement('script'), {
+            src: `/prismjs/plugins/line-highlight/prism-line-highlight.min.js`,
+            type: 'text/javascript',
+            async: true,
+            onerror,
+            onload,
+          }))),
+        ]);
+      }
+
+      this.editorRef()?.highlight();
+    });
   }
 }

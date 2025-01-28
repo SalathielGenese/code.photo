@@ -2,6 +2,7 @@
   "menu.home": "Accueil",
   "settings.theme": "Theme",
   "settings.lineNumbers": "Numeros de Lignes",
+  "settings.lineHighlight": "Lignes Surlignees",
   "settings.lineNumbersStart": "Numerotation Des",
   "settings.programming-language": "Langage de Programmation"
 }

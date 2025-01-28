@@ -14,6 +14,7 @@ import "prismjs/plugins/autoloader/prism-autoloader";
   template: `
     <pre>{{ settings() | json }}</pre>
     <pre [attr.data-start]="settings()?.lineNumbersStart ?? 1"
+         [attr.data-line]="settings()?.lineHighlight"
          [ngClass]="classes()"
     ><code [ngClass]="'language-' + settings()?.language"
            (input)="sourcesChanged.emit()"
