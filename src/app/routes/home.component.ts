@@ -1,6 +1,7 @@
 import {
   Component,
   computed,
+  DestroyRef,
   effect,
   Inject,
   input,
@@ -42,8 +43,10 @@ export class HomeComponent {
 
   readonly #theme = computed(() => this.settings()?.theme);
   readonly #language = computed(() => this.settings()?.language);
+  readonly #lineNumbers = computed(() => this.settings()?.lineNumbers);
 
-  constructor(private l10nService: L10nService,
+  constructor(destroyRef: DestroyRef,
+              l10nService: L10nService,
               @Inject(PLATFORM_ID) private readonly platformId: Object) {
     // NOTE: Update the language signal, from route parameter, to its app-wide Single Source of Truth
     effect(() => (l10nService.language as WritableSignal<string>).set(this.language()!));
@@ -57,6 +60,7 @@ export class HomeComponent {
         this.#language(), () => this.editorRef()?.highlight(), (error: any) => console.error(error));
     });
 
+    // NOTE: Unload the previous theme and load the next, whenever the theme changes
     effect(onCleanup => {
       // TODO: Try leveraging SSR metadata when the URL contains the language details
       onCleanup(() => document.querySelector(`link[href^="/prismjs/themes/prism"]`)?.remove());
@@ -64,6 +68,28 @@ export class HomeComponent {
         href: `/prismjs/themes/prism${this.#theme() ? `-${this.#theme()}` : ''}.min.css`,
         rel: 'stylesheet',
       }));
+    });
+
+    // NOTE: Ensure the line-numbers plugin is loaded, then highlight to reflect, whenever that setting is true
+    effect(async () => {
+      if (this.#lineNumbers() && !document.querySelector(`link[href^="/prismjs/plugins/line-numbers/"]`)) {
+        await Promise.allSettled([
+          new Promise((onload, onerror) => document.head.appendChild(Object.assign(document.createElement('link'), {
+            href: `/prismjs/plugins/line-numbers/prism-line-numbers.min.css`,
+            rel: 'stylesheet',
+            onerror,
+            onload,
+          }))),
+          new Promise((onload, onerror) => document.body.appendChild(Object.assign(document.createElement('script'), {
+            src: `/prismjs/plugins/line-numbers/prism-line-numbers.min.js`,
+            type: 'text/javascript',
+            async: true,
+            onerror,
+            onload,
+          }))),
+        ]);
+      }
+      this.editorRef()?.highlight();
     });
   }
 }

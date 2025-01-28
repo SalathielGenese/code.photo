@@ -24,8 +24,8 @@ export class EditorComponent {
   readonly sourcesChanged = output<void>({alias: 'sources'});
 
   protected readonly classes = computed(() => [
-    ...this.settings()?.lineNumbers ? 'line-numbers' : '',
     `language-${this.settings()?.language}`,
+    ...this.settings()?.lineNumbers ? ['line-numbers'] : [''],
   ]);
   protected readonly sourcesRef = viewChild<ElementRef<HTMLElement>>('sources');
 
@@ -36,12 +36,14 @@ export class EditorComponent {
   highlight(preserveSelection = false) {
     if (isPlatformBrowser(this.platformId)) {
       const target = this.sourcesRef()?.nativeElement!;
-      const selection = preserveSelection
-        ? this.#getSelection(target.parentElement!)
-        : undefined;
+      const lineNumbersRows = target.querySelector('.line-numbers-rows');
+      const selection = preserveSelection ? this.#getSelection(target.parentElement!) : undefined;
+
+      this.settings()?.lineNumbers || lineNumbersRows?.remove();
       target.replaceChildren(target.textContent!);
       Prism.highlightElement(target);
-      selection && this.#setSelection(target.parentElement!, selection);
+
+      if (selection) this.#setSelection(target.parentElement!, selection);
     }
   }
 
