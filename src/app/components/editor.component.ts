@@ -1,6 +1,17 @@
-import {Component, computed, ElementRef, Inject, input, output, PLATFORM_ID, viewChild} from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  computed,
+  ElementRef,
+  Inject,
+  input,
+  model,
+  output,
+  PLATFORM_ID,
+  viewChild
+} from '@angular/core';
 import {Settings} from '../domains/settings.domain';
-import {isPlatformBrowser, NgClass} from '@angular/common';
+import {isPlatformBrowser, isPlatformServer, NgClass} from '@angular/common';
 import Prism from "prismjs";
 import "prismjs/plugins/autoloader/prism-autoloader";
 
@@ -21,8 +32,10 @@ import "prismjs/plugins/autoloader/prism-autoloader";
     ></code></pre>
   `
 })
-export class EditorComponent {
+export class EditorComponent implements AfterViewInit {
   readonly settings = input<Settings>();
+  readonly initialSources = input<string>();
+  readonly sourcesInitialized = model(false);
   readonly sourcesChanged = output<string>({alias: 'sources'});
 
   protected readonly classes = computed(() => [
@@ -32,7 +45,16 @@ export class EditorComponent {
   protected readonly sourcesRef = viewChild<ElementRef<HTMLElement>>('sources');
 
   constructor(@Inject(PLATFORM_ID) private readonly platformId: Object) {
-    if (isPlatformBrowser(platformId)) Prism.plugins['autoloader'].languages_path = '/prismjs/components/';
+    if (isPlatformServer(platformId)) return;
+
+    Prism.plugins['autoloader'].languages_path = '/prismjs/components/';
+  }
+
+  ngAfterViewInit() {
+    const initialSources = this.initialSources();
+    if (initialSources && isPlatformBrowser(this.platformId))
+      this.sourcesRef()?.nativeElement.replaceChildren(initialSources);
+    this.sourcesInitialized.set(true);
   }
 
   highlight(preserveSelection = false) {

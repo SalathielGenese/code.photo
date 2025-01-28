@@ -17,6 +17,7 @@ import {EditorComponent} from '../components/editor.component';
 import {isPlatformServer} from '@angular/common';
 import Prism from 'prismjs';
 import {Router} from '@angular/router';
+import {filter, map, mergeMap, of} from 'rxjs';
 
 @Component({
   standalone: true,
@@ -31,7 +32,9 @@ import {Router} from '@angular/router';
   template: `
     <aside appSettings [(settings)]="settings"></aside>
 
-    <article (sources)="editorRef()?.highlight(true); updateUrl($event)"
+    <article (sources)="editorRef()?.highlight(true); content=$event; updateUrl()"
+             [(sourcesInitialized)]="sourcesInitialized"
+             [initialSources]="initialSources"
              [settings]="settings()"
              appEditor></article>
   `,
@@ -40,16 +43,10 @@ export class HomeComponent {
   protected q = input<string>();
   protected language = input<string>();
 
-  protected readonly updateUrl = (content = '') =>
-    this.settings().language && this.router.navigate([this.settings().language], {
-      queryParamsHandling: 'merge',
-      preserveFragment: true,
-      queryParams: {
-        q: btoa(JSON.stringify({...this.settings(), content})),
-      },
-      relativeTo: null,
-    });
+  protected content?: string;
+  protected readonly initialSources?: string;
   protected readonly settings = signal<Settings>({});
+  protected readonly sourcesInitialized = signal(false);
   protected readonly editorRef = viewChild(EditorComponent);
 
   readonly #theme = computed(() => this.settings()?.theme);
@@ -61,13 +58,29 @@ export class HomeComponent {
   constructor(l10nService: L10nService,
               private readonly router: Router,
               @Inject(PLATFORM_ID) platformId: Object) {
-    // NOTE: Update the q query param with settings and content
-    effect(() => this.settings() && this.updateUrl());
+    // // NOTE: Update the q query param with settings and content
+    effect(() => this.settings() && this.sourcesInitialized() && this.updateUrl());
 
     // NOTE: Update the language signal, from route parameter, to its app-wide Single Source of Truth
     effect(() => (l10nService.language as WritableSignal<string>).set(this.language()!));
 
     if (isPlatformServer(platformId)) return;
+
+
+    // NOTE: Update setting & content from the q query param
+    const q = new URLSearchParams(location.search).get('q');
+    if (q) {
+      const {content, theme, language, lineNumbers, lineHighlight, lineNumbersStart} = JSON.parse(atob(q));
+      this.settings.set({
+        ...this.settings(),
+        ...null === lineNumbers || undefined === lineNumbers ? {} : {lineNumbers},
+        ...null === theme || undefined === theme ? {} : {theme},
+        ...lineNumbersStart ? {lineNumbersStart} : {},
+        ...lineHighlight ? {lineHighlight} : {},
+        ...language ? {language} : {},
+      });
+      this.initialSources = content;
+    }
 
     // NOTE: Wait for language component to load and re-run the highlight, whenever the language changes
     effect(() => {
@@ -137,4 +150,27 @@ export class HomeComponent {
       this.editorRef()?.highlight();
     });
   }
+
+  protected updateUrl() {
+    let content: string | undefined;
+
+    of(this.content)
+      .pipe(mergeMap(_ => _
+        ? of(_)
+        : of(this.q())
+          .pipe(filter(_ => !!_))
+          .pipe(map(_ => atob(_!)))
+          .pipe(map(_ => JSON.parse(_)))
+          .pipe(map(_ => _.content))))
+      .subscribe(_ => content = _);
+
+    void this.router.navigate([this.settings().language], {
+      queryParamsHandling: 'merge',
+      preserveFragment: true,
+      queryParams: {
+        q: btoa(JSON.stringify({...this.settings(), content})),
+      },
+      relativeTo: null,
+    })
+  };
 }
