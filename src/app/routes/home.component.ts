@@ -1,12 +1,12 @@
 import {
   Component,
   computed,
-  DestroyRef,
   effect,
   Inject,
   input,
   PLATFORM_ID,
   signal,
+  untracked,
   viewChild,
   WritableSignal
 } from '@angular/core';
@@ -44,9 +44,9 @@ export class HomeComponent {
   readonly #theme = computed(() => this.settings()?.theme);
   readonly #language = computed(() => this.settings()?.language);
   readonly #lineNumbers = computed(() => this.settings()?.lineNumbers);
+  readonly #lineNumbersStart = computed(() => this.settings()?.lineNumbersStart);
 
-  constructor(destroyRef: DestroyRef,
-              l10nService: L10nService,
+  constructor(l10nService: L10nService,
               @Inject(PLATFORM_ID) private readonly platformId: Object) {
     // NOTE: Update the language signal, from route parameter, to its app-wide Single Source of Truth
     effect(() => (l10nService.language as WritableSignal<string>).set(this.language()!));
@@ -91,5 +91,11 @@ export class HomeComponent {
       }
       this.editorRef()?.highlight();
     });
+
+    // NOTE: Track and update line numbering start
+    effect(() => {
+      this.#lineNumbersStart();
+      if (untracked(this.#lineNumbers)) this.editorRef()?.highlight();
+    })
   }
 }

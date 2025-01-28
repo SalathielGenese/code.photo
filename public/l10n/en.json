@@ -2,5 +2,6 @@
   "menu.home": "Home",
   "settings.theme": "Theme",
   "settings.lineNumbers": "Line Numbers",
+  "settings.lineNumbersStart": "Numbering From",
   "settings.programming-language": "Programming Language"
 }

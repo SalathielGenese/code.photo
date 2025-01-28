@@ -34,6 +34,11 @@ import {filter} from 'rxjs';
         <input type="checkbox" formControlName="lineNumbers">
         <span>{{ 'settings.lineNumbers' | l10n }}</span>
       </label>
+
+      <label>
+        <input type="number" formControlName="lineNumbersStart">
+        <span>{{ 'settings.lineNumbersStart' | l10n }}</span>
+      </label>
     </form>
   `,
   imports: [
@@ -47,6 +52,7 @@ export class SettingsComponent implements OnInit {
   protected readonly languages = 'abap,abnf,actionscript,ada,agda,al,antlr4,apacheconf,apex,apl,applescript,aql,arduino,arff,armasm,arturo,asciidoc,asm6502,asmatmel,aspnet,autohotkey,autoit,avisynth,avro-idl,awk,bash,basic,batch,bbcode,bbj,bicep,birb,bison,bnf,bqn,brainfuck,brightscript,bro,bsl,cfscript,chaiscript,cilkc,cilkcpp,cil,clike,clojure,cmake,c,cobol,coffeescript,concurnas,cooklang,coq,core,cpp,crystal,csharp,cshtml,csp,css-extras,css,csv,cue,cypher,dart,dataweave,dax,dhall,diff,django,d,dns-zone-file,docker,dot,ebnf,editorconfig,eiffel,ejs,elixir,elm,erb,erlang,etlua,excel-formula,factor,false,firestore-security-rules,flow,fortran,fsharp,ftl,gap,gcode,gdscript,gedcom,gettext,gherkin,git,glsl,gml,gn,go,go-module,gradle,graphql,groovy,haml,handlebars,haskell,haxe,hcl,hlsl,hoon,hpkp,hsts,http,ichigojam,icon,icu-message-format,idris,iecst,ignore,inform7,ini,io,javadoclike,javadoc,java,javascript,javastacktrace,jexl,j,jolie,jq,jsdoc,js-extras,json5,json,jsonp,jsstacktrace,js-templates,jsx,julia,keepalived,keyman,kotlin,kumir,kusto,latex,latte,less,lilypond,linker-script,liquid,lisp,livescript,llvm,log,lolcode,lua,magma,makefile,markdown,markup,markup-templating,mata,matlab,maxscript,mel,mermaid,metafont,mizar,mongodb,monkey,moonscript,n1ql,n4js,nand2tetris-hdl,naniscript,nasm,neon,nevod,nginx,nim,nix,nsis,objectivec,ocaml,odin,opencl,openqasm,oz,parigp,parser,pascaligo,pascal,pcaxis,peoplecode,perl,phpdoc,php-extras,php,plant-uml,plsql,powerquery,powershell,processing,prolog,promql,properties,protobuf,psl,pug,puppet,purebasic,pure,purescript,python,q,qml,qore,qsharp,racket,reason,regex,rego,renpy,rescript,rest,rip,r,roboconf,robotframework,ruby,rust,sas,sass,scala,scheme,scss,shell-session,smali,smalltalk,smarty,sml,solidity,solution-file,soy,sparql,splunk-spl,sqf,sql,squirrel,stan,stata,stylus,supercollider,swift,systemd,t4-cs,t4-templating,t4-vb,tap,tcl,textile,toml,tremor,tsx,tt2,turtle,twig,typescript,typoscript,unrealscript,uorazor,uri,vala,vbnet,velocity,verilog,vhdl,vim,visual-basic,v,warpscript,wasm,web-idl,wgsl,wiki,wolfram,wren,xeora,xml-doc,xojo,xquery,yaml,yang,zig'.split(',');
   protected readonly themes = 'coy,dark,funky,okaidia,solarizedlight,tomorrow,twilight'.split(',');
   protected form!: FormGroup<{
+    lineNumbersStart: FormControl<number | null>;
     lineNumbers: FormControl<boolean | null>;
     language: FormControl<string | null>;
     theme: FormControl<string | null>;
@@ -64,6 +70,7 @@ export class SettingsComponent implements OnInit {
   ngOnInit() {
     this.form = this.fb.group({
       lineNumbers: this.fb.control(true),
+      lineNumbersStart: this.fb.control(1, [Validators.required]),
       language: this.fb.control('javascript', [
         Validators.required,
         ({value: _}) => !_ || this.languages.includes(_) ? null : {invalid: true},

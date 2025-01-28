@@ -13,10 +13,13 @@ import "prismjs/plugins/autoloader/prism-autoloader";
   ],
   template: `
     <pre>{{ settings() | json }}</pre>
-    <pre [ngClass]="classes()"><code [ngClass]="'language-' + settings()?.language"
-                                     (input)="sourcesChanged.emit()"
-                                     contenteditable="true"
-                                     #sources></code></pre>
+    <pre [attr.data-start]="settings()?.lineNumbersStart ?? 1"
+         [ngClass]="classes()"
+    ><code [ngClass]="'language-' + settings()?.language"
+           (input)="sourcesChanged.emit()"
+           contenteditable="true"
+           #sources
+    ></code></pre>
   `
 })
 export class EditorComponent {
