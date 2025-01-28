@@ -34,7 +34,11 @@ export class EditorComponent {
     if (isPlatformBrowser(platformId)) Prism.plugins['autoloader'].languages_path = '/prismjs/components/';
 
     const language = computed(() => this.settings()?.language);
-    isPlatformBrowser(platformId) && effect(() => language() && this.highlight());
+    isPlatformBrowser(platformId) && effect(() =>
+      language() && Prism.plugins['autoloader'].loadLanguages(
+        language(),
+        () => this.highlight(),
+        (error: any) => console.error(error)));
 
     const theme = computed(() => this.settings()?.theme);
     isPlatformBrowser(platformId) && effect(onCleanup => {
