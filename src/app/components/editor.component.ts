@@ -49,7 +49,7 @@ export class EditorComponent {
         ? this.#getSelection(target.parentElement!)
         : undefined;
       target.replaceChildren(target.textContent!);
-      Prism.highlightAll();
+      Prism.highlightElement(target);
       selection && this.#setSelection(target.parentElement!, selection);
     }
     this.editing = false;
