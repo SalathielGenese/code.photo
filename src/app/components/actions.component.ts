@@ -17,10 +17,10 @@ import {L10nPipe} from '../pipes/l10n.pipe';
       <span>{{ 'exports.transparent' | l10n }}</span>
     </label>
     <button (click)="exportToClipboard()">
-      COPY
+      {{ 'action.copy' | l10n }}
     </button>
     <button (click)="exportForDownload()">
-      DOWNLOAD
+      {{ 'action.download' | l10n }}
     </button>
   `
 })

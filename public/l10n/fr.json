@@ -7,5 +7,7 @@
   "settings.lineNumbersStart": "Numerotation Des",
   "settings.programming-language": "Langage de Programmation",
   "settings.lineNumbersStart.placeholder": "(ex: 3, 5, 9-12)",
+  "action.copy": "Coper",
+  "action.download": "Telecharger",
   "exports.transparent": "Transparent"
 }
