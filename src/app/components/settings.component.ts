@@ -45,7 +45,7 @@ export class SettingsComponent implements OnInit {
 
   ngOnInit() {
     this.form = this.fb.group({
-      language: this.fb.control('java', [
+      language: this.fb.control('javascript', [
         Validators.required,
         ({value: _}) => !_ || this.languages.includes(_) ? null : {invalid: true},
       ]),
