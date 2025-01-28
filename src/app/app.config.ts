@@ -1,10 +1,11 @@
-import {ApplicationConfig, inject, provideZoneChangeDetection, REQUEST} from '@angular/core';
+import {ApplicationConfig, inject, PLATFORM_ID, provideZoneChangeDetection, REQUEST} from '@angular/core';
 import {provideRouter, withComponentInputBinding} from '@angular/router';
 
 import {routes} from './app.routes';
 import {provideClientHydration, withEventReplay} from '@angular/platform-browser';
 import {provideHttpClient, withFetch, withInterceptors} from '@angular/common/http';
 import {HOST} from './tokens/host.token';
+import {isPlatformServer} from '@angular/common';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -25,9 +26,12 @@ export const appConfig: ApplicationConfig = {
       },
     ]) as any),
     {
-      useFactory: () => inject(REQUEST, {optional: true})
-          ?.url.replace(/^(https?:\/\/[^/]+).*$/, '$1')
-        ?? window.location.origin,
+      useFactory: () => {
+        return isPlatformServer(inject(PLATFORM_ID))
+          ? inject(REQUEST, {optional: true})?.url.replace(/^(https?:\/\/[^/]+).*$/, '$1')
+          ?? `http://0.0.0.0:${process.env['PORT'] ?? 4000}`
+          : window.location.origin;
+      },
       provide: HOST,
     },
     provideZoneChangeDetection({eventCoalescing: true}),
