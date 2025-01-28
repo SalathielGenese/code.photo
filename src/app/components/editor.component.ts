@@ -1,4 +1,4 @@
-import {Component, computed, ElementRef, Inject, input, PLATFORM_ID, viewChild} from '@angular/core';
+import {Component, computed, effect, ElementRef, Inject, input, PLATFORM_ID, viewChild} from '@angular/core';
 import {Settings} from '../domains/settings.domain';
 import {isPlatformBrowser, JsonPipe, NgClass} from '@angular/common';
 import Prism from "prismjs";
@@ -30,6 +30,14 @@ export class EditorComponent {
   readonly #plugin = '/prismjs/plugins/%/prism-%.min';
 
   constructor(@Inject(PLATFORM_ID) private readonly platformId: Object) {
+    isPlatformBrowser(platformId) && effect(onCleanup => {
+      // TODO: Try leveraging SSR metadata when the URL contains the language details
+      onCleanup(() => document.querySelector(`link[href^="/prismjs/themes/prism"]`)?.remove());
+      document.head.appendChild(Object.assign(document.createElement('link'), {
+        href: `/prismjs/themes/prism${'-coy'}.min.css`,
+        rel: 'stylesheet',
+      }));
+    });
   }
 
   protected highlight() {
