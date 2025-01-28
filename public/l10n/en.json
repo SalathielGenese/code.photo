@@ -1,5 +1,6 @@
 {
   "menu.home": "Home",
   "settings.theme": "Theme",
+  "settings.lineNumbers": "Line Numbers",
   "settings.programming-language": "Programming Language"
 }

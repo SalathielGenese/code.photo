@@ -24,7 +24,8 @@ export class EditorComponent {
   readonly sourcesChanged = output<void>({alias: 'sources'});
 
   protected readonly classes = computed(() => [
-    `language-${this.settings()?.language}`
+    ...this.settings()?.lineNumbers ? 'line-numbers' : '',
+    `language-${this.settings()?.language}`,
   ]);
   protected readonly sourcesRef = viewChild<ElementRef<HTMLElement>>('sources');
 
