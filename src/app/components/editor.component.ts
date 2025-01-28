@@ -31,6 +31,11 @@ export class EditorComponent {
   readonly #plugin = '/prismjs/plugins/%/prism-%.min';
 
   constructor(@Inject(PLATFORM_ID) private readonly platformId: Object) {
+    if (isPlatformBrowser(platformId)) Prism.plugins['autoloader'].languages_path = '/prismjs/components/';
+
+    const language = computed(() => this.settings()?.language);
+    isPlatformBrowser(platformId) && effect(() => language() && this.highlight());
+
     const theme = computed(() => this.settings()?.theme);
     isPlatformBrowser(platformId) && effect(onCleanup => {
       // TODO: Try leveraging SSR metadata when the URL contains the language details
