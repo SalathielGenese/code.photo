@@ -38,10 +38,9 @@ export class EditorComponent {
   highlight(preserveSelection = false) {
     if (isPlatformBrowser(this.platformId)) {
       const target = this.sourcesRef()?.nativeElement!;
-      const lineNumbersRows = target.querySelector('.line-numbers-rows');
       const selection = preserveSelection ? this.#getSelection(target.parentElement!) : undefined;
 
-      this.settings()?.lineNumbers || lineNumbersRows?.remove();
+      if (this.settings()?.lineNumbers) target.querySelector('.line-numbers-rows')?.remove();
       target.replaceChildren(target.textContent!);
       Prism.highlightElement(target);
 
