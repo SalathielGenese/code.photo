@@ -19,6 +19,16 @@ import {filter} from 'rxjs';
           }
         </datalist>
       </label>
+
+      <label>
+        <input type="text" formControlName="theme" list="themes">
+        <span>{{ 'settings.theme' | l10n }}</span>
+        <datalist id="themes">
+          @for (theme of themes; track theme) {
+            <option [value]="theme">{{ theme }}</option>
+          }
+        </datalist>
+      </label>
     </form>
   `,
   imports: [
@@ -29,9 +39,11 @@ import {filter} from 'rxjs';
 export class SettingsComponent implements OnInit {
   readonly settings = model<Settings>();
 
+  protected readonly themes = 'coy,dark,funky,okaidia,solarizedlight,tomorrow,twilight'.split(',');
   protected readonly languages = 'java,javascript,php,rust,python,dart,kotlin,html'.split(',');
   protected form!: FormGroup<{
     language: FormControl<string | null>;
+    theme: FormControl<string | null>;
   }>;
 
   constructor(private readonly fb: FormBuilder,
@@ -48,6 +60,9 @@ export class SettingsComponent implements OnInit {
       language: this.fb.control('javascript', [
         Validators.required,
         ({value: _}) => !_ || this.languages.includes(_) ? null : {invalid: true},
+      ]),
+      theme: this.fb.control('coy', [
+        ({value: _}) => !_ || this.themes.includes(_) ? null : {invalid: true},
       ]),
     });
     this.form.valueChanges

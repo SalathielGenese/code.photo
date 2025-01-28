@@ -30,11 +30,12 @@ export class EditorComponent {
   readonly #plugin = '/prismjs/plugins/%/prism-%.min';
 
   constructor(@Inject(PLATFORM_ID) private readonly platformId: Object) {
+    const theme = computed(() => this.settings()?.theme);
     isPlatformBrowser(platformId) && effect(onCleanup => {
       // TODO: Try leveraging SSR metadata when the URL contains the language details
       onCleanup(() => document.querySelector(`link[href^="/prismjs/themes/prism"]`)?.remove());
       document.head.appendChild(Object.assign(document.createElement('link'), {
-        href: `/prismjs/themes/prism${'-coy'}.min.css`,
+        href: `/prismjs/themes/prism${theme() ? `-${theme()}` : ''}.min.css`,
         rel: 'stylesheet',
       }));
     });
