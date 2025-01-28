@@ -2,6 +2,7 @@ import {
   AfterViewInit,
   Component,
   computed,
+  effect,
   ElementRef,
   Inject,
   input,
@@ -37,29 +38,30 @@ export class EditorComponent implements AfterViewInit {
   readonly initialSources = input<string>();
   readonly sourcesInitialized = model(false);
   readonly sourcesChange = output<string>({alias: 'sources'});
+  readonly sourcesViewRefChange = output<ElementRef<HTMLElement> | undefined>({alias: 'sourcesViewRef'});
 
   protected readonly classes = computed(() => [
     `language-${this.settings()?.language}`,
     ...Number.isSafeInteger(this.settings()?.lineNumbersStart) ? ['line-numbers'] : [''],
   ]);
-  protected readonly sourcesRef = viewChild<ElementRef<HTMLElement>>('sources');
+  protected readonly sourcesViewRef = viewChild<ElementRef<HTMLElement>>('sources');
 
   constructor(@Inject(PLATFORM_ID) private readonly platformId: Object) {
     if (isPlatformServer(platformId)) return;
-
+    effect(() => this.sourcesViewRefChange.emit(this.sourcesViewRef()));
     Prism.plugins['autoloader'].languages_path = '/prismjs/components/';
   }
 
   ngAfterViewInit() {
     const initialSources = this.initialSources();
     if (initialSources && isPlatformBrowser(this.platformId))
-      this.sourcesRef()?.nativeElement.replaceChildren(initialSources);
+      this.sourcesViewRef()?.nativeElement.replaceChildren(initialSources);
     this.sourcesInitialized.set(true);
   }
 
   highlight(preserveSelection = false) {
     if (isPlatformBrowser(this.platformId)) {
-      const target = this.sourcesRef()?.nativeElement!;
+      const target = this.sourcesViewRef()?.nativeElement!;
       const selection = preserveSelection ? this.#getSelection(target.parentElement!) : undefined;
 
       if (Number.isSafeInteger(this.settings()?.lineNumbersStart))

@@ -2,6 +2,7 @@ import {
   Component,
   computed,
   effect,
+  ElementRef,
   Inject,
   input,
   PLATFORM_ID,
@@ -17,6 +18,7 @@ import {isPlatformServer} from '@angular/common';
 import Prism from 'prismjs';
 import {Router} from '@angular/router';
 import {filter, map, mergeMap, of} from 'rxjs';
+import {ActionsComponent} from '../components/actions.component';
 
 @Component({
   standalone: true,
@@ -25,13 +27,23 @@ import {filter, map, mergeMap, of} from 'rxjs';
   ],
   imports: [
     EditorComponent,
+    ActionsComponent,
     SettingsComponent,
   ],
   selector: 'section[appHomePage]',
   template: `
-    <aside appSettings [(settings)]="settings"></aside>
+    <aside [(settings)]="settings"
+           appSettings
+    ></aside>
+
+    @if (sourcesViewRef()) {
+      <aside [sourcesViewRef]="sourcesViewRef()"
+             appActions
+      ></aside>
+    }
 
     <article (sources)="editorRef()?.highlight(true); content=$event; updateUrl()"
+             (sourcesViewRef)="sourcesViewRef.set($event!)"
              [(sourcesInitialized)]="sourcesInitialized"
              [initialSources]="initialSources"
              [settings]="settings()"
@@ -47,6 +59,7 @@ export class HomeComponent {
   protected readonly settings = signal<Settings>({});
   protected readonly sourcesInitialized = signal(false);
   protected readonly editorRef = viewChild(EditorComponent);
+  protected readonly sourcesViewRef = signal<ElementRef<HTMLElement>>(void 0 as any);
 
   readonly #theme = computed(() => this.settings()?.theme);
   readonly #language = computed(() => this.settings()?.language);
