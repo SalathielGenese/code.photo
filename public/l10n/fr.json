@@ -1,5 +1,7 @@
 {
-  "menu.home": "Accueil",
+  "meta.title": "Code · Photo",
+  "meta.context": "https://code.photo/fr",
+  "meta.description": "Capturer du code en image",
   "settings.theme": "Theme",
   "settings.lineHighlight": "Lignes Surlignees",
   "settings.lineNumbersStart": "Numerotation Des",

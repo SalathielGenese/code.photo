@@ -1,5 +1,7 @@
 {
-  "menu.home": "Home",
+  "meta.title": "Code · Photo",
+  "meta.context": "https://code.photo/en",
+  "meta.description": "Turn code into image",
   "settings.theme": "Theme",
   "settings.lineHighlight": "Line Highlight",
   "settings.lineNumbersStart": "Numbering From",
