@@ -25,7 +25,7 @@ import "prismjs/plugins/autoloader/prism-autoloader";
     <pre [attr.data-start]="settings()?.lineNumbersStart ?? 1"
          [attr.data-line]="settings()?.lineHighlight"
          [ngClass]="classes()"
-    ><code (input)="sourcesChanged.emit(sources.textContent ?? '')"
+    ><code (input)="sourcesChange.emit(sources.textContent ?? '')"
            [ngClass]="'language-' + settings()?.language"
            contenteditable="true"
            #sources
@@ -36,7 +36,7 @@ export class EditorComponent implements AfterViewInit {
   readonly settings = input<Settings>();
   readonly initialSources = input<string>();
   readonly sourcesInitialized = model(false);
-  readonly sourcesChanged = output<string>({alias: 'sources'});
+  readonly sourcesChange = output<string>({alias: 'sources'});
 
   protected readonly classes = computed(() => [
     `language-${this.settings()?.language}`,
