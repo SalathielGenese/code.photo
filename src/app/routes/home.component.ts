@@ -2,7 +2,7 @@ import {Component, effect, input, signal, WritableSignal} from '@angular/core';
 import {L10nService} from '../services/l10n.service';
 import {SettingsComponent} from '../components/settings.component';
 import {Settings} from '../domains/settings.domain';
-import {JsonPipe} from '@angular/common';
+import {EditorComponent} from '../components/editor.component';
 
 @Component({
   standalone: true,
@@ -10,16 +10,14 @@ import {JsonPipe} from '@angular/common';
   template: `
     <aside appSettings [(settings)]="settings"></aside>
 
-    <fieldset>
-      <pre>{{ settings() | json }}</pre>
-    </fieldset>
+    <article appEditor [settings]="settings()"></article>
   `,
   providers: [
     L10nService,
   ],
   imports: [
     SettingsComponent,
-    JsonPipe,
+    EditorComponent,
   ]
 })
 export class HomeComponent {
