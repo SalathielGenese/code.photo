@@ -4,5 +4,6 @@
   "settings.lineHighlight": "Lignes Surlignees",
   "settings.lineNumbersStart": "Numerotation Des",
   "settings.programming-language": "Langage de Programmation",
-  "settings.lineNumbersStart.placeholder": "(ex: 3, 5, 9-12)"
+  "settings.lineNumbersStart.placeholder": "(ex: 3, 5, 9-12)",
+  "exports.transparent": "Transparent"
 }

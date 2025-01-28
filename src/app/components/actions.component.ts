@@ -1,10 +1,21 @@
 import {Component, ElementRef, input} from '@angular/core';
 import html2canvas from "html2canvas";
+import {FormsModule} from '@angular/forms';
+import {L10nPipe} from '../pipes/l10n.pipe';
 
 @Component({
   standalone: true,
   selector: '[appActions]',
+  imports: [
+    L10nPipe,
+    FormsModule,
+  ],
   template: `
+    <label>
+      <input [(ngModel)]="exports.transparent"
+             type="checkbox">
+      <span>{{ 'exports.transparent' | l10n }}</span>
+    </label>
     <button (click)="exportToClipboard()">
       COPY
     </button>
@@ -16,26 +27,33 @@ import html2canvas from "html2canvas";
 export class ActionsComponent {
   readonly sourcesViewRef = input.required<ElementRef<HTMLElement>>();
 
-  protected exportToClipboard() {
-    const target = this.sourcesViewRef().nativeElement.parentElement!;
+  protected readonly exports: {
+    transparent?: boolean;
+  } = {};
 
-    html2canvas(target as HTMLElement, {backgroundColor: null})
-      .then(canvas => new Promise<ClipboardItem>((succeed, fail) => canvas.toBlob(blob =>
-        blob
-          ? succeed(new ClipboardItem({'image/png': blob}))
-          : fail(blob))))
-      .then(item => navigator.clipboard.write([item]));
+  protected async exportToClipboard() {
+    const canvas = await this.#exporting();
+    const item = await new Promise<ClipboardItem>((succeed, fail) =>
+      canvas.toBlob(blob => blob
+        ? succeed(new ClipboardItem({'image/png': blob}))
+        : fail(blob)));
+    void navigator.clipboard.write([item]);
   }
 
-  protected exportForDownload() {
-    const target = this.sourcesViewRef().nativeElement.parentElement!;
-
-    html2canvas(target as HTMLElement, {backgroundColor: null})
-      .then(canvas => canvas.toDataURL('image/png'))
-      .then(href => Object.assign(document.createElement('a'), {
-        download: 'code.photo.png',
-        href,
-      }).click());
+  protected async exportForDownload() {
+    const canvas = await this.#exporting();
+    Object.assign(document.createElement('a'), {
+      href: canvas.toDataURL('image/png'),
+      download: 'code.photo.png',
+    }).click()
   }
 
+  async #exporting() {
+    const {transparent} = this.exports;
+    const target = this.sourcesViewRef().nativeElement.parentElement!;
+    if (transparent) (target.style.backgroundColor = 'transparent');
+    const canvas = await html2canvas(target, {backgroundColor: null});
+    if (transparent) target.removeAttribute('style');
+    return canvas;
+  }
 }
