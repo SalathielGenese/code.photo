@@ -15,7 +15,10 @@ import {filter} from 'rxjs';
   template: `
     <form [formGroup]="form">
       <label>
-        <input type="text" formControlName="language" list="languages">
+        <input [placeholder]="settings()?.language"
+               formControlName="language"
+               list="languages"
+               type="text">
         <span>{{ 'settings.programming-language' | l10n }}</span>
         <datalist id="languages">
           @for (language of languages; track language) {
@@ -25,7 +28,10 @@ import {filter} from 'rxjs';
       </label>
 
       <label>
-        <input type="text" formControlName="theme" list="themes">
+        <input [placeholder]="settings()?.theme"
+               formControlName="theme"
+               list="themes"
+               type="text">
         <span>{{ 'settings.theme' | l10n }}</span>
         <datalist id="themes">
           @for (theme of themes; track theme) {
@@ -40,12 +46,16 @@ import {filter} from 'rxjs';
       </label>
 
       <label>
-        <input type="number" formControlName="lineNumbersStart">
+        <input [placeholder]="settings()?.lineNumbersStart"
+               formControlName="lineNumbersStart"
+               type="number">
         <span>{{ 'settings.lineNumbersStart' | l10n }}</span>
       </label>
 
       <label>
-        <input type="text" formControlName="lineHighlight">
+        <input [placeholder]="'settings.lineNumbersStart.placeholder' | l10n"
+               formControlName="lineHighlight"
+               type="text">
         <span>{{ 'settings.lineHighlight' | l10n }}</span>
       </label>
     </form>

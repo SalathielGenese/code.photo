@@ -4,5 +4,6 @@
   "settings.lineNumbers": "Line Numbers",
   "settings.lineHighlight": "Line Highlight",
   "settings.lineNumbersStart": "Numbering From",
-  "settings.programming-language": "Programming Language"
+  "settings.programming-language": "Programming Language",
+  "settings.lineNumbersStart.placeholder": "(eg.: 3, 5, 9-12)"
 }
