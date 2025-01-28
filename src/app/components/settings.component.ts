@@ -41,13 +41,7 @@ import {filter} from 'rxjs';
       </label>
 
       <label>
-        <input type="checkbox" formControlName="lineNumbers">
-        <span>{{ 'settings.lineNumbers' | l10n }}</span>
-      </label>
-
-      <label>
-        <input [placeholder]="settings()?.lineNumbersStart"
-               formControlName="lineNumbersStart"
+        <input formControlName="lineNumbersStart"
                type="number">
         <span>{{ 'settings.lineNumbersStart' | l10n }}</span>
       </label>
@@ -69,7 +63,6 @@ export class SettingsComponent implements OnInit {
   protected form!: FormGroup<{
     lineNumbersStart: FormControl<number | null>;
     lineHighlight: FormControl<string | null>;
-    lineNumbers: FormControl<boolean | null>;
     language: FormControl<string | null>;
     theme: FormControl<string | null>;
   }>;
@@ -87,17 +80,18 @@ export class SettingsComponent implements OnInit {
 
   ngOnInit() {
     this.form = this.fb.group({
-      lineNumbers: this.fb.control(true),
-      lineNumbersStart: this.fb.control(1, [Validators.required]),
+      theme: this.fb.control('coy', [
+        ({value: _}) => !_ || this.themes.includes(_) ? null : {invalid: true},
+      ]),
       language: this.fb.control('javascript', [
         Validators.required,
         ({value: _}) => !_ || this.languages.includes(_) ? null : {invalid: true},
       ]),
-      theme: this.fb.control('coy', [
-        ({value: _}) => !_ || this.themes.includes(_) ? null : {invalid: true},
-      ]),
       lineHighlight: this.fb.control<string | null>(null, [
         ({value: _}) => !_ || this.#LINE_HIGHLIGHT_REGEX.test(_) ? null : {invalid: true},
+      ]),
+      lineNumbersStart: this.fb.control(1, [
+        ({value: _}) => !_ || /^-?(0|[1-9]\d*)$/.test(`${_ ?? ''}`) ? null : {invalid: true},
       ]),
     });
     this.form.valueChanges

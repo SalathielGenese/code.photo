@@ -40,7 +40,7 @@ export class EditorComponent implements AfterViewInit {
 
   protected readonly classes = computed(() => [
     `language-${this.settings()?.language}`,
-    ...this.settings()?.lineNumbers ? ['line-numbers'] : [''],
+    ...Number.isSafeInteger(this.settings()?.lineNumbersStart) ? ['line-numbers'] : [''],
   ]);
   protected readonly sourcesRef = viewChild<ElementRef<HTMLElement>>('sources');
 
@@ -62,7 +62,8 @@ export class EditorComponent implements AfterViewInit {
       const target = this.sourcesRef()?.nativeElement!;
       const selection = preserveSelection ? this.#getSelection(target.parentElement!) : undefined;
 
-      if (this.settings()?.lineNumbers) target.querySelector('.line-numbers-rows')?.remove();
+      if (Number.isSafeInteger(this.settings()?.lineNumbersStart))
+        target.querySelector('.line-numbers-rows')?.remove();
       target.replaceChildren(target.textContent!);
       Prism.highlightElement(target);
 

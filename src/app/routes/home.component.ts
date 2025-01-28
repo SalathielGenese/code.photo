@@ -6,7 +6,6 @@ import {
   input,
   PLATFORM_ID,
   signal,
-  untracked,
   viewChild,
   WritableSignal
 } from '@angular/core';
@@ -51,7 +50,6 @@ export class HomeComponent {
 
   readonly #theme = computed(() => this.settings()?.theme);
   readonly #language = computed(() => this.settings()?.language);
-  readonly #lineNumbers = computed(() => this.settings()?.lineNumbers);
   readonly #lineHighlight = computed(() => this.settings()?.lineHighlight);
   readonly #lineNumbersStart = computed(() => this.settings()?.lineNumbersStart);
 
@@ -101,7 +99,8 @@ export class HomeComponent {
 
     // NOTE: Ensure the line-numbers plugin is loaded, then highlight to reflect, whenever that setting is true
     effect(async () => {
-      if (this.#lineNumbers() && !document.querySelector(`link[href^="/prismjs/plugins/line-numbers/"]`)) {
+      if (Number.isSafeInteger(this.#lineNumbersStart()) &&
+        !document.querySelector(`link[href^="/prismjs/plugins/line-numbers/"]`)) {
         await Promise.allSettled([
           new Promise((onload, onerror) => document.head.appendChild(Object.assign(document.createElement('link'), {
             href: `/prismjs/plugins/line-numbers/prism-line-numbers.min.css`,
@@ -123,8 +122,8 @@ export class HomeComponent {
 
     // NOTE: Track and update line numbering start
     effect(() => {
-      this.#lineNumbersStart();
-      if (untracked(this.#lineNumbers)) this.editorRef()?.highlight();
+      if (Number.isSafeInteger(this.#lineNumbersStart()))
+        this.editorRef()?.highlight();
     });
 
     // NOTE: Track and update line highlight
