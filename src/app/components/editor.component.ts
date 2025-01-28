@@ -13,7 +13,8 @@ import "prismjs/plugins/autoloader/prism-autoloader";
   ],
   template: `
     <pre>{{ settings() | json }}</pre>
-    <pre [ngClass]="classes()"><code (input)="editing=true; highlight()"
+    <pre [ngClass]="classes()"><code [ngClass]="'language-' + settings()?.language"
+                                     (input)="editing=true; highlight()"
                                      contenteditable="true"
                                      #code></code></pre>
   `
