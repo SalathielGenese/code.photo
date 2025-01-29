@@ -1,4 +1,4 @@
-import {Component, effect, Inject, PLATFORM_ID, untracked} from '@angular/core';
+import {Component, effect, Inject, PLATFORM_ID} from '@angular/core';
 import {RouterOutlet} from '@angular/router';
 import {Meta, Title} from '@angular/platform-browser';
 import {L10nService} from './services/l10n.service';
@@ -17,21 +17,17 @@ export class AppComponent {
               title: Title,
               l10nService: L10nService,
               @Inject(PLATFORM_ID) platformId: Object) {
-    meta.addTag({name: 'og:type', content: 'website'});
-    meta.addTag({name: 'og:card', content: 'summary'});
-    meta.addTag({name: 'twitter:site', content: '@SalathielGenese'});
-    ['og:image', 'twitter:image']
-      .forEach(name => meta.addTag({name, content: 'https://code.photo/favicon.ico'}));
-
     effect(() => {
+      const language = l10nService.language();
       const cache = l10nService.cache();
+      if (!cache['meta.title']) return;
 
       title.setTitle(cache['meta.title']);
-      ['og:title', 'twitter:title']
-        .forEach(name => meta.addTag({name, content: cache['meta.title']}));
-      ['description', 'og:description', 'twitter:description']
-        .forEach(name => meta.addTag({name, content: cache['meta.description']}));
-      meta.addTag({name: 'og:url', content: `https://code.photo/${untracked(l10nService.language)}`});
+      ['og:title', 'twitter:title'].forEach(name =>
+        meta.addTag({name, content: cache['meta.title']}, false));
+      ['description', 'og:description', 'twitter:description'].forEach(name =>
+        meta.addTag({name, content: cache['meta.description']}, false));
+      meta.addTag({name: 'og:url', content: `https://code.photo/${language}`}, false);
 
       if (isPlatformBrowser(platformId)) {
         const script = Object.assign(document.head.querySelector('script[type$="/ld+json"]') ?? document.createElement('script'), {
