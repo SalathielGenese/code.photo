@@ -1,0 +1,14 @@
+{
+  "meta.context": "https://code.photo/af",
+  "meta.title": "Code·Photo | Vang, deel en vertoon jou kode soos nooit tevore nie",
+  "meta.description": "’n Kragtige hulpmiddel om kode in verstommende foto’s te omskep. Met code.photo kan jy jou kode moeiteloos as visueel aantreklike beelde deel—hetsy op sosiale media, in geselsies met vriende of enige ander plek. Moet jy kode in jou blog insluit? Gebruik eenvoudig ’n iframe wat na code.photo skakel. Vang, deel en vertoon jou kode soos nooit tevore nie.",
+  "meta.keywords": "visuele kode-uitbeelding, ontwikkelaarsnutsmiddels, kode-visualiseringhulpmiddel, beeldskap van kode, kode-na-grafiese omskakelaar, kode-snippet-visualiseerder, kode-vanghulpmiddel, kitskode-snapshots, kodeblok-visualiseerder, ontwikkelaar-beeldhulpmiddel, skripte na visuele omskakel, kode-na-prent-hulpmiddel, kode-beeldsagteware, snippet-na-beeld-skepper, kode-weergawehulpmiddel, visuele snippet-generator, kode-na-visuele omskakelaar, programmering-kode-snapshots, beeldgebaseerde kode-deling, ontwikkelaarvriendelike beeldhulpmiddels, kode-uitligtingshulpmiddel, kode-tema-ontwerper, voer kode as beeld uit, deursigtige kode-beelde, kode-sintaks-uitligter, pasgemaakte kode-temas, uitgeligte kode-uitvoerder, kode-na-beeld-skepper, kode-snapshot-generator, kodeblok-na-beeld, kode-visuele-uitvoerhulpmiddel",
+  "settings.theme": "Tema",
+  "settings.lineHighlight": "Reël-uitligting",
+  "settings.lineNumbersStart": "Nommering Vanaf",
+  "settings.programming-language": "Programmeertaal",
+  "settings.lineNumbersStart.placeholder": "(bv.: 3, 5, 9-12)",
+  "action.copy": "Kopieer",
+  "action.download": "Laai Af",
+  "exports.transparent": "Deursigtig"
+}
