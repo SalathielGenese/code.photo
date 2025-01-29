@@ -1,0 +1,14 @@
+{
+  "meta.context": "https://code.photo/es",
+  "meta.title": "Code·Photo | Captura, comparte y muestra tu código como nunca antes",
+  "meta.description": "Una herramienta poderosa para transformar código en fotos impresionantes. Con code.photo, puedes compartir tu código fácilmente como imágenes visualmente atractivas, ya sea en redes sociales, en chats con amigos o en cualquier otro lugar. ¿Necesitas incrustar código en tu blog? Simplemente usa un iframe que enlace a code.photo. Captura, comparte y muestra tu código como nunca antes.",
+  "meta.keywords": "representación visual de código, utilidades para desarrolladores, herramienta de visualización de código, creación de imágenes a partir de código, convertidor de código a gráficos, visualizador de fragmentos de código, herramienta de captura de código, instantáneas de código instantáneas, visualizador de bloques de código, herramienta de imágenes para desarrolladores, convertir scripts a visuales, herramienta de código a imagen, software de imágenes de código, creador de fragmentos a imagen, utilidad de renderizado de código, generador visual de fragmentos, convertidor de código a visual, instantáneas de código de programación, intercambio de código basado en imágenes, herramientas de imágenes amigables para desarrolladores, herramienta de resaltado de código, diseñador de temas de código, exportar código como imagen, imágenes de código transparentes, resaltador de sintaxis de código, temas de código personalizados, exportador de código resaltado, creador de código a imagen, generador de instantáneas de código, bloque de código a imagen, herramienta de exportación visual de código",
+  "settings.theme": "Tema",
+  "settings.lineHighlight": "Resaltado de línea",
+  "settings.lineNumbersStart": "Numeración desde",
+  "settings.programming-language": "Lenguaje de programación",
+  "settings.lineNumbersStart.placeholder": "(ej.: 3, 5, 9-12)",
+  "action.copy": "Copiar",
+  "action.download": "Descargar",
+  "exports.transparent": "Transparente"
+}
