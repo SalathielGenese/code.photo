@@ -1,0 +1,14 @@
+{
+  "meta.context": "https://code.photo/ln",
+  "meta.title": "Code·Photo | Zwa, partage, mpe komonisa code na yo ndenge mosusu te",
+  "meta.description": "Outil puissant ya kobongola code en image ya kitoko. Na code.photo, okoki partager code na yo elongo na ba images ya kitoko—na réseaux sociaux, na ba discussions na bana moninga, to partout na nzela mosusu. Ozali na besoin ya kotya code na blog na yo? Utilise iframe oyo ekangami na code.photo. Zwa, partage, mpe komonisa code na yo ndenge mosusu te.",
+  "meta.keywords": "représentation visuelle ya code,outils ya ba développeurs,outil ya visualisation ya code,création ya image na code,convertisseur code-vers-graphique,visualiseur ya snippets ya code,outil ya capture ya code,instantanés ya code,visualiseur ya codeblock,outil ya image ya ba développeurs,conversion ya scripts en visuels,outil code-vers-image,logiciel ya imagerie ya code,créateur snippet-vers-image,outil ya rendu ya code,générateur visuel ya snippets,convertisseur code-vers-visuel,instantanés ya code ya programmation,partage ya code na base ya image,outils ya image ya ba développeurs,outil ya mise en évidence ya code,designer ya thème ya code,exportation ya code en image,images ya code ya transparent,outil ya mise en évidence ya syntaxe ya code,thèmes ya code personnalisés,exportateur ya code mis en évidence,créateur code-vers-image,générateur ya instantanés ya code,codeblock vers image,outil ya exportation visuelle ya code",
+  "settings.theme": "Thème",
+  "settings.lineHighlight": "Mise en évidence ya ligne",
+  "settings.lineNumbersStart": "Numérotation kowuti",
+  "settings.programming-language": "Langage ya programmation",
+  "settings.lineNumbersStart.placeholder": "(ex.: 3, 5, 9-12)",
+  "action.copy": "Kopier",
+  "action.download": "Télécharger",
+  "exports.transparent": "Transparent"
+}
