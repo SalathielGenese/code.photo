@@ -1,0 +1,14 @@
+{
+  "meta.context": "https://code.photo/zh",
+  "meta.title": "Code·Photo | 以前所未有的方式捕捉、分享和展示你的代码",
+  "meta.description": "一个强大的工具，将代码转化为令人惊叹的照片。通过code.photo，你可以轻松地将代码分享为视觉上吸引人的图片——无论是在社交媒体上、与朋友的聊天中，还是其他任何地方。需要在博客中嵌入代码吗？只需使用链接到code.photo的iframe。以前所未有的方式捕捉、分享和展示你的代码。",
+  "meta.keywords": "代码可视化表示,开发者工具,代码可视化工具,从代码创建图像,代码到图形转换器,代码片段可视化工具,代码捕捉工具,即时代码快照,代码块可视化工具,开发者图像工具,将脚本转换为视觉图像,代码到图片工具,代码成像软件,片段到图像创建器,代码渲染工具,视觉片段生成器,代码到视觉转换器,编程代码快照,基于图像的代码分享,开发者友好的图像工具,代码高亮工具,代码主题设计器,将代码导出为图像,透明代码图像,代码语法高亮器,自定义代码主题,高亮代码导出器,代码到图像创建器,代码快照生成器,代码块到图像,代码视觉导出工具",
+  "settings.theme": "主题",
+  "settings.lineHighlight": "行高亮",
+  "settings.lineNumbersStart": "起始行号",
+  "settings.programming-language": "编程语言",
+  "settings.lineNumbersStart.placeholder": "（例如：3, 5, 9-12）",
+  "action.copy": "复制",
+  "action.download": "下载",
+  "exports.transparent": "透明"
+}
