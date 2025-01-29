@@ -64,6 +64,7 @@ export class EditorComponent implements AfterViewInit {
 
       if (Number.isSafeInteger(this.settings()?.lineNumbersStart))
         target.querySelector('.line-numbers-rows')?.remove();
+      target.querySelector('.line-highlight')?.remove();
       target.replaceChildren(target.textContent!);
       Prism.highlightElement(target);
 
