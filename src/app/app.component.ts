@@ -3,23 +3,47 @@ import {RouterOutlet} from '@angular/router';
 import {Meta, Title} from '@angular/platform-browser';
 import {L10nService} from './services/l10n.service';
 import {isPlatformBrowser} from '@angular/common';
+import {FormsModule} from '@angular/forms';
 
 @Component({
   standalone: true,
   selector: '[appRoot]',
-  imports: [RouterOutlet],
+  imports: [RouterOutlet, FormsModule],
   template: `
     <router-outlet></router-outlet>
+
+    <footer>
+      <select (change)="l10nService.setLanguage(languageRef.value)"
+              [(ngModel)]="language"
+              #languageRef
+      >
+        @for (language of LANGUAGES; track language) {
+          <option [value]="language.tag">{{ language.text }}</option>
+        }
+      </select>
+      <hr>
+      <div>
+        Salathiel Genese &copy; {{ year }}
+      </div>
+    </footer>
   `,
 })
 export class AppComponent {
+  protected year?: number;
+  protected language!: string;
+  protected readonly LANGUAGES = L10nService.LANGUAGES;
+
   constructor(meta: Meta,
               title: Title,
-              l10nService: L10nService,
-              @Inject(PLATFORM_ID) platformId: Object) {
+              @Inject(PLATFORM_ID) platformId: Object,
+              protected readonly l10nService: L10nService) {
+    this.year = new Date().getFullYear();
+
     effect(() => {
       const language = l10nService.language();
       const cache = l10nService.cache();
+      this.language = language;
+
       if (!cache['meta.title']) return;
 
       title.setTitle(cache['meta.title']);
