@@ -1,0 +1,14 @@
+{
+  "meta.context": "https://code.photo/sw",
+  "meta.title": "Code·Photo | Piga, shiriki, na onyesha msimbo wako kwa njia mpya",
+  "meta.description": "Zana yenye nguvu ya kubadilisha msimbo kuwa picha za kuvutia. Kwa code.photo, unaweza kushiriki msimbo wako kwa urahisi kama picha za kuvutia—iwe kwenye mitandao ya kijamii, katika mazungumzo na marafiki, au mahali popote pengine. Unahitaji kuweka msimbo kwenye blogu yako? Tumia tu iframe inayoelekeza kwenye code.photo. Piga, shiriki, na onyesha msimbo wako kwa njia mpya.",
+  "meta.keywords": "uwakilishi wa msimbo wa kuona, zana za wasanidi programu, zana ya kuona msimbo, utengenezaji wa picha kutoka kwa msimbo, kibadilishaji cha msimbo-kwa-grafu, kivizulia cha vipande vya msimbo, zana ya kukamata msimbo, picha za msimbo papo hapo, kivizulia cha kizuizi cha msimbo, zana ya picha ya msanidi programu, badilisha hati kuwa picha, zana ya msimbo-kwa-picha, programu ya picha ya msimbo, mtengenezaji wa picha kutoka kwa vipande vya msimbo, zana ya kuonyesha msimbo, mtengenezaji wa vipande vya kuona, kibadilishaji cha msimbo-kwa-kuona, picha za msimbo wa programu, kushiriki msimbo kwa kutumia picha, zana za picha zinazofaa kwa wasanidi programu, zana ya kuonyesha msimbo, mbuni wa mandhari ya msimbo, hamisha msimbo kama picha, picha za msimbo zenye uwazi, kionyeshi cha sintaksia ya msimbo, mandhari maalum za msimbo, kihamishi cha msimbo ulioonyeshwa, mtengenezaji wa msimbo-kwa-picha, mtengenezaji wa picha za msimbo, kizuizi cha msimbo kuwa picha, zana ya kuhamisha msimbo wa kuona",
+  "settings.theme": "Mandhari",
+  "settings.lineHighlight": "Mwangaza wa Mstari",
+  "settings.lineNumbersStart": "Nambari ya Kuanzia",
+  "settings.programming-language": "Lugha ya Programu",
+  "settings.lineNumbersStart.placeholder": "(mfano: 3, 5, 9-12)",
+  "action.copy": "Nakili",
+  "action.download": "Pakua",
+  "exports.transparent": "Uwazi"
+}
