@@ -16,6 +16,7 @@ export class L10nService {
     {tag: 'ru', meta: 'russian', text: 'Русский'},
     {tag: 'ja', meta: 'japanese', text: '日本語'},
     {tag: 'zh', meta: 'chinese', text: '中文'},
+    {tag: 'mr', meta: 'hindu', text: 'हिंदू'},
   ];
 
   readonly cache!: Signal<Record<string, string>>;
