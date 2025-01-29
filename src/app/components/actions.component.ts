@@ -6,10 +6,7 @@ import {L10nPipe} from '../pipes/l10n.pipe';
 @Component({
   standalone: true,
   selector: '[appActions]',
-  imports: [
-    L10nPipe,
-    FormsModule,
-  ],
+  imports: [L10nPipe, FormsModule],
   template: `
     <label>
       <input [(ngModel)]="exports.transparent"

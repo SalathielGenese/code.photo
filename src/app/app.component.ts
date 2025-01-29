@@ -13,12 +13,13 @@ import {FormsModule} from '@angular/forms';
     <router-outlet></router-outlet>
 
     <footer>
+      ({{language}} vs {{l10nService.language()}})
       <select (change)="l10nService.setLanguage(languageRef.value)"
               [(ngModel)]="language"
               #languageRef
       >
-        @for (language of LANGUAGES; track language) {
-          <option [value]="language.tag">{{ language.text }}</option>
+        @for (lang of LANGUAGES; track lang) {
+          <option [value]="lang.tag">{{ lang.text }}</option>
         }
       </select>
       <hr>

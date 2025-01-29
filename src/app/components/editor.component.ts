@@ -18,10 +18,8 @@ import "prismjs/plugins/autoloader/prism-autoloader";
 
 @Component({
   standalone: true,
+  imports: [NgClass],
   selector: '[appEditor]',
-  imports: [
-    NgClass,
-  ],
   template: `
     <pre [attr.data-start]="settings()?.lineNumbersStart ?? 1"
          [attr.data-line]="settings()?.lineHighlight"

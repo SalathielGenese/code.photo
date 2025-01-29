@@ -22,9 +22,6 @@ import {ActionsComponent} from '../components/actions.component';
 
 @Component({
   standalone: true,
-  providers: [
-    L10nService,
-  ],
   imports: [
     EditorComponent,
     ActionsComponent,
