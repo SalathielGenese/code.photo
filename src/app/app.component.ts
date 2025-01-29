@@ -10,10 +10,10 @@ import {FormsModule} from '@angular/forms';
   selector: '[appRoot]',
   imports: [RouterOutlet, FormsModule],
   template: `
-    <router-outlet></router-outlet>
-
-    <footer>
-      <select (change)="l10nService.setLanguage(languageRef.value)"
+    <nav class="mb-8 flex">
+      <hr class="opacity-0 flex-grow">
+      <select class="focus-visible:outline-gray-600/30 focus-visible:outline-1 bg-gray-300/30 rounded-xs px-3 py-2"
+              (change)="l10nService.setLanguage(languageRef.value)"
               [(ngModel)]="language"
               #languageRef
       >
@@ -21,9 +21,16 @@ import {FormsModule} from '@angular/forms';
           <option [value]="lang.tag">{{ lang.text }}</option>
         }
       </select>
-      <hr>
-      <div>
-        Salathiel Genese &copy; {{ year }}
+    </nav>
+
+    <router-outlet></router-outlet>
+
+    <footer class="justify-items-center place-items-center justify-center text-white/30 font-bold gap-1 mt-8 flex py-4">
+      <div class="contents">
+        <a href="https://x.com/SalathielGenese" target="_blank">
+          &#64;SalathielGenese
+        </a>
+        <span>{{ ' © ' + year }}</span>
       </div>
     </footer>
   `,
