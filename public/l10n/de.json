@@ -1,0 +1,14 @@
+{
+  "meta.context": "https://code.photo/de",
+  "meta.title": "Code·Photo | Vang, deel en toon je code zoals nooit tevoren",
+  "meta.description": "Een krachtige tool om code om te zetten in prachtige foto's. Met code.photo kun je moeiteloos je code delen als visueel aantrekkelijke afbeeldingen – of het nu op sociale media is, in chats met vrienden of ergens anders. Moet je code in je blog embedden? Gebruik simpelweg een iframe die linkt naar code.photo. Vang, deel en toon je code zoals nooit tevoren.",
+  "meta.keywords": "visuele codeweergave,ontwikkelaarshulpmiddelen,codevisualisatietool,afbeeldingen maken van code,code-naar-grafiekconverter,codefragmentvisualisator,codevastleggingstool,instant code snapshots,codeblockvisualisator,ontwikkelaarafbeeldingstool,scripts omzetten in visuals,code-naar-afbeeldingtool,codebeeldsoftware,snippet-naar-afbeeldingcreator,codeweergavehulpmiddel,visuele snippetgenerator,code-naar-visuele converter,programmeercodesnapshots,op afbeeldingen gebaseerd coderen delen,ontwikkelaarsvriendelijke beeldtools,codehighlightingtool,codethemaontwerper,exporteer code als afbeelding,transparante codeafbeeldingen,codesyntaxmarkeerder,aangepaste codethema's,gehighlighte code-exporteur,code-naar-afbeeldingcreator,codesnapshotgenerator,codeblock naar afbeelding,codevisueel exporttool",
+  "settings.theme": "Thema",
+  "settings.lineHighlight": "Lijnmarkering",
+  "settings.lineNumbersStart": "Nummering vanaf",
+  "settings.programming-language": "Programmeertaal",
+  "settings.lineNumbersStart.placeholder": "(bijv.: 3, 5, 9-12)",
+  "action.copy": "Kopiëren",
+  "action.download": "Downloaden",
+  "exports.transparent": "Transparant"
+}
