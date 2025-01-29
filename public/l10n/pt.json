@@ -1,0 +1,14 @@
+{
+  "meta.context": "https://code.photo/pt",
+  "meta.title": "Code·Photo | Capture, compartilhe e exiba seu código como nunca antes",
+  "meta.description": "Uma ferramenta poderosa para transformar código em fotos incríveis. Com o code.photo, você pode compartilhar seu código facilmente como imagens visualmente atraentes—seja nas redes sociais, em chats com amigos ou em qualquer outro lugar. Precisa incorporar código no seu blog? Basta usar um iframe vinculado ao code.photo. Capture, compartilhe e exiba seu código como nunca antes.",
+  "meta.keywords": "representação visual de código,utilitários para desenvolvedores,ferramenta de visualização de código,criação de imagens a partir de código,conversor de código para gráfico,visualizador de snippets de código,ferramenta de captura de código,instantâneos de código instantâneos,visualizador de blocos de código,ferramenta de imagem para desenvolvedores,converter scripts em visuais,ferramenta de código para imagem,software de imagem de código,criador de snippet para imagem,utilitário de renderização de código,gerador de snippet visual,conversor de código para visual,instantâneos de código de programação,compartilhamento de código baseado em imagem,ferramentas de imagem amigáveis para desenvolvedores,ferramenta de destaque de código,designer de temas de código,exportar código como imagem,imagens de código transparentes,destacador de sintaxe de código,temas de código personalizados,exportador de código destacado,criador de código para imagem,gerador de instantâneos de código,bloco de código para imagem,ferramenta de exportação visual de código",
+  "settings.theme": "Tema",
+  "settings.lineHighlight": "Destaque de Linha",
+  "settings.lineNumbersStart": "Numeração a Partir De",
+  "settings.programming-language": "Linguagem de Programação",
+  "settings.lineNumbersStart.placeholder": "(ex.: 3, 5, 9-12)",
+  "action.copy": "Copiar",
+  "action.download": "Baixar",
+  "exports.transparent": "Transparente"
+}
