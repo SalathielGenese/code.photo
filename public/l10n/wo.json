@@ -1,0 +1,14 @@
+{
+  "meta.context": "https://code.photo/en",
+  "meta.title": "Code·Photo | Matal, joxe, wone kood bi nga amuloo jamono",
+  "meta.description": "Jumtukatu àdduna bu am solo ngir soppal kood ci nataal yu rafet. Ci code.photo, dinga man a joxe kood bi nga def ci nataal yu rafet—ci social media, ci waxtaan ak xarit, walla feneen fii. Soo bëggoon a tëj kood ci blog bi nga def? Tayaltal iframe bi nga jëmale ci code.photo. Matal, joxe, wone kood bi nga amuloo jamono.",
+  "meta.keywords": "nataal yu bari ci kood, jumtukati développeur, tool bu matal kood, soppal kood ci nataal, tool bu soppal kood ci grafik, tool bu wone snippet ci kood, tool bu matal kood, nataal yu yàgg ci kood, tool bu wone codeblock, tool bu matal kood ci nataal, soppal script ci nataal, tool bu soppal kood ci nataal, software bu matal kood, tool bu soppal snippet ci nataal, tool bu matal kood, tool bu soppal kood ci nataal, nataal yu bari ci kood, joxe kood ci nataal, tool yu rafet ci développeur, tool bu wone kood, tool bu def theme ci kood, joxe kood ci nataal, nataal yu transparan ci kood, tool bu wone syntax ci kood, theme ci kood bu nga def, tool bu joxe kood ci nataal, tool bu soppal kood ci nataal, tool bu matal kood, tool bu wone codeblock ci nataal, tool bu joxe kood ci nataal",
+  "settings.theme": "Theme",
+  "settings.lineHighlight": "Matal Line",
+  "settings.lineNumbersStart": "Tiré ci Nombre",
+  "settings.programming-language": "Làkk Programmation",
+  "settings.lineNumbersStart.placeholder": "(mbaa: 3, 5, 9-12)",
+  "action.copy": "Copie",
+  "action.download": "Yebal",
+  "exports.transparent": "Transparan"
+}

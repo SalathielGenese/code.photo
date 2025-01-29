@@ -13,7 +13,6 @@ import {FormsModule} from '@angular/forms';
     <router-outlet></router-outlet>
 
     <footer>
-      ({{language}} vs {{l10nService.language()}})
       <select (change)="l10nService.setLanguage(languageRef.value)"
               [(ngModel)]="language"
               #languageRef
