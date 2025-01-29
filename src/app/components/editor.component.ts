@@ -21,14 +21,22 @@ import "prismjs/plugins/autoloader/prism-autoloader";
   imports: [NgClass],
   selector: '[appEditor]',
   template: `
+    <fieldset class="before:-translate-y-1/2 before:aspect-square before:rounded-full before:bg-[#EC473E] before:content-[''] before:absolute before:left-2 before:-top-3 before:z-10 before:h-3
+                     after:-translate-y-1/2 after:aspect-square after:rounded-full after:bg-[#E8B600] after:content-[''] after:absolute after:left-7 after:-top-3 after:z-10 after:h-3
+                     border-2 border-t-24 rounded-tl-lg rounded-tr-lg
+                     relative min-w-64">
+      <legend class="-translate-y-1/2 aspect-square rounded-full bg-[#00c951] absolute left-12 -top-3 z-10 h-3"></legend>
     <pre [attr.data-start]="settings()?.lineNumbersStart ?? 1"
          [attr.data-line]="settings()?.lineHighlight"
          [ngClass]="classes()"
-    ><code (input)="sourcesChange.emit(sources.textContent ?? '')"
-           [ngClass]="'language-' + settings()?.language"
+         class="!m-0"
+    ><code [ngClass]="'focus:outline-0 inline-block min-h-6 pr-2 language-' + settings()?.language"
+           (input)="sourcesChange.emit(sources.textContent ?? '')"
            contenteditable="true"
+           spellcheck="false"
            #sources
     ></code></pre>
+    </fieldset>
   `
 })
 export class EditorComponent implements AfterViewInit {

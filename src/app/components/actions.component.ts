@@ -47,7 +47,8 @@ export class ActionsComponent {
 
   async #exporting() {
     const {transparent} = this.exports;
-    const target = this.sourcesViewRef().nativeElement.parentElement!;
+    const target = this.sourcesViewRef().nativeElement.parentElement?.parentElement!;
+    console.log(target)
     if (transparent) (target.style.backgroundColor = 'transparent');
     const canvas = await html2canvas(target, {backgroundColor: null});
     if (transparent) target.removeAttribute('style');

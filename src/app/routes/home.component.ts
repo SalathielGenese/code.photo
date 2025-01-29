@@ -22,6 +22,9 @@ import {ActionsComponent} from '../components/actions.component';
 
 @Component({
   standalone: true,
+  host: {
+    class: 'flex-grow flex-col flex',
+  },
   imports: [
     EditorComponent,
     ActionsComponent,
@@ -40,6 +43,7 @@ import {ActionsComponent} from '../components/actions.component';
     }
 
     <article (sources)="editorRef()?.highlight(true); content=$event; updateUrl()"
+             class="place-items-center justify-center flex-grow flex"
              (sourcesViewRef)="sourcesViewRef.set($event!)"
              [(sourcesInitialized)]="sourcesInitialized"
              [initialSources]="initialSources"
