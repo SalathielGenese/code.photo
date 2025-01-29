@@ -27,7 +27,9 @@ export class AppComponent {
         meta.addTag({name, content: cache['meta.title']}, false));
       ['description', 'og:description', 'twitter:description'].forEach(name =>
         meta.addTag({name, content: cache['meta.description']}, false));
+      meta.addTag({name: 'keywords', content: cache['meta.keywords']}, false);
       meta.addTag({name: 'og:url', content: `https://code.photo/${language}`}, false);
+      meta.addTag({name: 'language', content: L10nService.LANGUAGES.find(({tag}) => tag === language)?.meta!}, false);
 
       if (isPlatformBrowser(platformId)) {
         const script = Object.assign(document.head.querySelector('script[type$="/ld+json"]') ?? document.createElement('script'), {

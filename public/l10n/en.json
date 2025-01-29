@@ -1,7 +1,8 @@
 {
-  "meta.title": "Code · Photo",
   "meta.context": "https://code.photo/en",
-  "meta.description": "Turn code into image",
+  "meta.title": "Code·Photo | Capture, share, and showcase your code like never before",
+  "meta.description": "A powerful tool for transforming code into stunning photos. With code.photo, you can effortlessly share your code as visually appealing images—whether on social media, in chats with friends, or anywhere else. Need to embed code in your blog? Simply use an iframe linking to code.photo. Capture, share, and showcase your code like never before.",
+  "meta.keywords": "visual code representation,developer utilities,code visualization tool,image creation from code,code-to-graphic converter,code snippet visualizer,code capture tool,instant code snapshots,codeblock visualizer,developer image tool,convert scripts to visuals,code-to-picture tool,code imaging software,snippet-to-image creator,code rendering utility,visual snippet generator,code-to-visual converter,programming code snapshots,image-based code sharing,developer-friendly image tools,code highlighting tool,code theme designer,export code as image,transparent code images,code syntax highlighter,custom code themes,highlighted code exporter,code-to-image creator,code snapshot generator,codeblock to image,code visual export tool",
   "settings.theme": "Theme",
   "settings.lineHighlight": "Line Highlight",
   "settings.lineNumbersStart": "Numbering From",

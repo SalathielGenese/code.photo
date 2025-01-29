@@ -1,7 +1,8 @@
 {
-  "meta.title": "Code · Photo",
   "meta.context": "https://code.photo/fr",
-  "meta.description": "Capturer du code en image",
+  "meta.title": "Code·Photo | Capturez, partagez et mettez en valeur votre code comme jamais auparavant",
+  "meta.description": "Un outil puissant pour transformer du code en des visuels époustouflants. Avec code.photo, vous pouvez partager facilement votre code sous forme d'images attrayantes—que ce soit sur les réseaux sociaux, dans des discussions avec des amis, ou ailleurs. Besoin d'intégrer du code dans votre blog ? Il vous suffit d'utiliser un iframe lié à code.photo. Capturez, partagez et mettez en valeur votre code comme jamais auparavant.",
+  "meta.keywords": "représentation visuelle de code,outils pour développeurs,outil de visualisation de code,création d'images à partir de code,convertisseur de code en graphique,visualiseur de snippets de code,outil de capture de code,instantanés de code,visualiseur de blocs de code,outil d'image pour développeurs,convertir des scripts en visuels,outil de conversion de code en image,logiciel de création d'images à partir de code,créateur d'images à partir de snippets,outil de rendu de code,générateur de snippets visuels,convertisseur de code en visuel,instantanés de code de programmation,partage de code via des images,outils d'image pour développeurs,outil de mise en évidence de code,concepteur de thèmes pour code,exportation de code en image,images de code transparentes,outil de coloration syntaxique,thèmes personnalisés pour code,exportateur de code mis en évidence,créateur d'images à partir de code,générateur d'instantanés de code,conversion de blocs de code en image,outil d'export visuel de code",
   "settings.theme": "Theme",
   "settings.lineHighlight": "Lignes Surlignees",
   "settings.lineNumbersStart": "Numerotation Des",

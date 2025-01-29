@@ -6,9 +6,9 @@ import {HttpClient} from '@angular/common/http';
 
 @Injectable({providedIn: 'root'})
 export class L10nService {
-  static readonly LANGUAGES: { tag: string, text: string }[] = [
-    {tag: 'fr', text: 'Français'},
-    {tag: 'en', text: 'English'},
+  static readonly LANGUAGES: { tag: string, meta: string, text: string }[] = [
+    {tag: 'fr', meta: 'french', text: 'Français'},
+    {tag: 'en', meta: 'english', text: 'English'},
   ];
 
   readonly cache!: Signal<Record<string, string>>;
