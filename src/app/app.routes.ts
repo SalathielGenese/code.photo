@@ -8,10 +8,8 @@ import {L10nService} from './services/l10n.service';
   template: 'Never',
 })
 export class NeverComponent {
-  constructor() {
-    console.warn(this)
-  }
 }
+
 export const routes: Routes = [
   {
     path: ':language',
@@ -19,7 +17,7 @@ export const routes: Routes = [
     component: HomeComponent,
     canActivate: [
       ({params: {language}, fragment, queryParams}: ActivatedRouteSnapshot) => {
-        if (L10nService.LANGUAGES.some(({tag}) => tag === language)) return true;
+        if (language == inject(L10nService).resolveLanguage()) return true;
         return inject(Router).createUrlTree([], {
           ...queryParams ? {queryParams} : {},
           ...fragment ? {fragment} : {},
