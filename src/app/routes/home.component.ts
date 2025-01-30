@@ -48,7 +48,10 @@ import {ActionsComponent} from '../components/actions.component';
     ></aside>
 
     @if (sourcesViewRef()) {
-      <aside class="absolute top-0 md:mt-12  sm:mt-8 sm:ml-0 m-4 bg-stone-500"
+      <aside class="[&_button]:backdrop-blur-2xl [&_button]:from-stone-700/50 [&_button]:to-stone-700/60 [&_button]:bg-linear-to-b [&_button]:text-white/70
+                    [&_button]:first-of-type:rounded-bl-sm [&_button]:first-of-type:rounded-tl-sm [&_button]:first-of-type:border-r
+                    [&_button]:last-of-type:rounded-br-sm [&_button]:last-of-type:rounded-tr-sm
+                    absolute top-0 md:mt-12  sm:mt-8 sm:ml-0 m-4"
              [sourcesViewRef]="sourcesViewRef()"
              appActions
       ></aside>
