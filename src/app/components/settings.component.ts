@@ -13,7 +13,7 @@ import {filter} from 'rxjs';
   ],
   selector: '[appSettings]',
   template: `
-    <form [formGroup]="form">
+    <form [formGroup]="form" class="contents">
       <label>
         <input [placeholder]="settings()?.language"
                formControlName="language"
