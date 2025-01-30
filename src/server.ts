@@ -4,6 +4,7 @@ import express from 'express';
 import {dirname, join, resolve} from 'node:path';
 import {fileURLToPath} from 'node:url';
 import bootstrap from './main.server';
+import {L10nService} from './app/services/l10n.service';
 
 const serverDistFolder = dirname(fileURLToPath(import.meta.url));
 const browserDistFolder = resolve(serverDistFolder, '../browser');
@@ -49,7 +50,12 @@ app.get('**', (req, res, next) => {
       publicPath: browserDistFolder,
       providers: [{provide: APP_BASE_HREF, useValue: baseUrl}],
     })
-    .then((html) => res.send(html))
+    .then((html) => {
+      // NOTE: Document language
+      const [, language] = html.match(/meta name="language" content="([^"]+)"/) ?? [];
+      res.header('Content-Language', L10nService.LANGUAGES.find(({meta}) => language === meta)?.tag);
+      return res.send(html);
+    })
     .catch((err) => next(err));
 });
 
