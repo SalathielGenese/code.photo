@@ -5,12 +5,15 @@ import {dirname, join, resolve} from 'node:path';
 import {fileURLToPath} from 'node:url';
 import bootstrap from './main.server';
 import {L10nService} from './app/services/l10n.service';
+import {GET_COOKIE, SET_COOKIE} from './app/tokens/cookie.token';
+import cookieParser from 'cookie-parser';
 
 const serverDistFolder = dirname(fileURLToPath(import.meta.url));
 const browserDistFolder = resolve(serverDistFolder, '../browser');
 const indexHtml = join(serverDistFolder, 'index.server.html');
 
-const app = express();
+const app = express()
+  .use(cookieParser());
 const commonEngine = new CommonEngine();
 
 /**
@@ -48,7 +51,21 @@ app.get('**', (req, res, next) => {
       documentFilePath: indexHtml,
       url: `${protocol}://${headers.host}${originalUrl}`,
       publicPath: browserDistFolder,
-      providers: [{provide: APP_BASE_HREF, useValue: baseUrl}],
+      providers: [
+        {provide: APP_BASE_HREF, useValue: baseUrl},
+        {provide: GET_COOKIE, useValue: (name: string) => req.cookies[name]},
+        {
+          provide: SET_COOKIE,
+          useValue: (name: string, value: string, options?: {
+            sameSite?: 'strict' | 'lax' | 'none';
+            partitioned?: boolean;
+            domain?: string
+          }) => res.cookie(name, value, {
+            ...options,
+            ...options?.sameSite ? {sameSite: options.sameSite.toLocaleLowerCase() as any} : {},
+          })
+        },
+      ],
     })
     .then((html) => {
       // NOTE: Document language

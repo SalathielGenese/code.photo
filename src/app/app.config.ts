@@ -6,6 +6,7 @@ import {provideClientHydration, withEventReplay} from '@angular/platform-browser
 import {provideHttpClient, withFetch, withInterceptors} from '@angular/common/http';
 import {HOST} from './tokens/host.token';
 import {isPlatformServer} from '@angular/common';
+import {GET_COOKIE, SET_COOKIE} from './tokens/cookie.token';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -34,6 +35,23 @@ export const appConfig: ApplicationConfig = {
       },
       provide: HOST,
     },
+    ...globalThis.global === globalThis ? [] : [{
+      provide: GET_COOKIE,
+      useValue: ((name: string) => document.cookie.split('; ').find(_ => _.startsWith(`${name}=`))?.split('=')[1]),
+    }],
+    ...globalThis.global === globalThis ? [] : [{
+      provide: SET_COOKIE,
+      useValue: ((name: string, value: string, options?: {
+        sameSite?: 'strict' | 'lax' | 'none';
+        partitioned?: boolean;
+        domain?: string;
+      }) => document.cookie = [
+        ...options?.partitioned ? ['Partitioned'] : [],
+        `${encodeURIComponent(name)}=${encodeURIComponent(value)}`,
+        ...options?.sameSite ? [`SameSite=${options.sameSite}`,] : [],
+        ...options?.domain ? [`domain=${encodeURIComponent(options?.domain)}`] : [],
+      ].join('; ')),
+    }],
     provideZoneChangeDetection({eventCoalescing: true}),
     provideClientHydration(withEventReplay()),
     provideHttpClient(withFetch()),

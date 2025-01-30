@@ -1,8 +1,9 @@
-import {computed, DestroyRef, Injectable, Signal, signal, WritableSignal} from '@angular/core';
+import {computed, DestroyRef, Inject, Injectable, Signal, signal, WritableSignal} from '@angular/core';
 import {Router} from '@angular/router';
 import {takeUntilDestroyed, toObservable} from '@angular/core/rxjs-interop';
 import {filter, map, mergeMap, tap} from 'rxjs';
 import {HttpClient} from '@angular/common/http';
+import {GET_COOKIE, SET_COOKIE} from '../tokens/cookie.token';
 
 @Injectable({providedIn: 'root'})
 export class L10nService {
@@ -32,7 +33,15 @@ export class L10nService {
 
   constructor(http: HttpClient,
               destroyRef: DestroyRef,
-              private router: Router) {
+              private readonly router: Router,
+              @Inject(SET_COOKIE) private readonly setCookie: {
+                (name: string, value: string, options?: {
+                  sameSite?: 'strict' | 'lax' | 'none';
+                  partitioned?: boolean;
+                  domain?: string
+                }): void
+              },
+              @Inject(GET_COOKIE) private readonly getCookie: { (name: string): string | undefined }) {
     this.#language = signal<string>(this.resolveLanguage());
     this.cache = computed(() => this.#cache()[this.#language()] ?? {});
 
