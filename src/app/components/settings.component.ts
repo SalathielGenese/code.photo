@@ -98,7 +98,7 @@ export class SettingsComponent implements OnInit {
 
   ngOnInit() {
     this.form = this.fb.group({
-      theme: this.fb.control('coy', [
+      theme: this.fb.control('', [
         ({value: _}) => !_ || this.themes.includes(_) ? null : {invalid: true},
       ]),
       language: this.fb.control('javascript', [
@@ -108,7 +108,7 @@ export class SettingsComponent implements OnInit {
       lineHighlight: this.fb.control<string | null>(null, [
         ({value: _}) => !_ || this.#LINE_HIGHLIGHT_REGEX.test(_) ? null : {invalid: true},
       ]),
-      lineNumbersStart: this.fb.control(1, [
+      lineNumbersStart: this.fb.control<number | null>(null, [
         ({value: _}) => !_ || /^-?(0|[1-9]\d*)$/.test(`${_ ?? ''}`) ? null : {invalid: true},
       ]),
     });
