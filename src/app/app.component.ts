@@ -12,7 +12,8 @@ import {FormsModule} from '@angular/forms';
   template: `
     <nav class="sm:mr-0 sm:mt-0 m-4 flex">
       <hr class="opacity-0 flex-grow">
-      <select class="focus-visible:outline-gray-600/30 focus-visible:outline-1 bg-gray-300/30 rounded-xs px-3 py-2"
+      <select class="focus-visible:outline-gray-600/30 focus-visible:outline-1 px-3 py-2
+                     to-gray-300/30 from-transparent bg-linear-to-b rounded-xs"
               (change)="l10nService.setLanguage(languageRef.value)"
               [(ngModel)]="language"
               #languageRef
