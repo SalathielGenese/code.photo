@@ -48,7 +48,8 @@ import {ActionsComponent} from '../components/actions.component';
     ></aside>
 
     @if (sourcesViewRef()) {
-      <aside [sourcesViewRef]="sourcesViewRef()"
+      <aside class="absolute top-0 md:mt-12  sm:mt-8 sm:ml-0 m-4 bg-stone-500"
+             [sourcesViewRef]="sourcesViewRef()"
              appActions
       ></aside>
     }
