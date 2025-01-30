@@ -14,7 +14,7 @@ import {FormsModule} from '@angular/forms';
       <hr class="opacity-0 flex-grow">
       <select class="focus-visible:outline-gray-600/30 focus-visible:outline-1 px-3 py-2
                      to-gray-300/30 from-transparent bg-linear-to-b rounded-xs"
-              (change)="l10nService.setLanguage(languageRef.value)"
+              (change)="l10nService.setLanguage(languageRef.value, true)"
               [(ngModel)]="language"
               #languageRef
       >
@@ -26,7 +26,8 @@ import {FormsModule} from '@angular/forms';
 
     <router-outlet></router-outlet>
 
-    <footer class="justify-items-center place-items-center justify-center text-white/30 font-bold gap-1 sm:py-12 py-8 flex py-4">
+    <footer
+      class="justify-items-center place-items-center justify-center text-white/30 font-bold gap-1 sm:py-12 py-8 flex py-4">
       <div class="contents">
         <a href="https://x.com/SalathielGenese" target="_blank">
           &#64;SalathielGenese

@@ -58,7 +58,8 @@ export class L10nService {
       .subscribe(content => this.#cache.set({...this.#cache(), ...content}));
   }
 
-  setLanguage(language: string) {
+  setLanguage(language: string, updateCookie = false) {
+    updateCookie && this.setCookie?.(this.#LANGUAGE_COOKIE, language);
     void this.router.navigate([language].filter(_ => _), {
       queryParamsHandling: "preserve",
       preserveFragment: true,
