@@ -31,6 +31,7 @@ export class L10nService {
   readonly #cache = signal<{ [language in string]?: Record<string, string> }>({});
   readonly #loading = {} as { [language in string]?: boolean };
   readonly #language!: WritableSignal<string>;
+  readonly #LANGUAGE_COOKIE = 'X-PREFERRED-LANGUAGE';
 
   constructor(http: HttpClient,
               destroyRef: DestroyRef,
@@ -70,7 +71,17 @@ export class L10nService {
   }
 
   resolveLanguage() {
-    // TODO: Resolve a hierarchical language
-    return 'en';
+    const cookie = this.getCookie(this.#LANGUAGE_COOKIE);
+    if (L10nService.LANGUAGES.some(({tag}) => cookie === tag)) return cookie!;
+
+    let resolved: string;
+    for (const language of this.systemLanguages) {
+      if (L10nService.LANGUAGES.some(({tag}) => language === tag)) {
+        resolved = language;
+        break;
+      }
+    }
+    this.setCookie(this.#LANGUAGE_COOKIE, resolved ??= 'en');
+    return resolved;
   }
 }
