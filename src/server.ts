@@ -7,6 +7,7 @@ import bootstrap from './main.server';
 import {L10nService} from './app/services/l10n.service';
 import {GET_COOKIE, SET_COOKIE} from './app/tokens/cookie.token';
 import cookieParser from 'cookie-parser';
+import {SYSTEM_LANGUAGES} from './app/tokens/system-languages.token';
 
 const serverDistFolder = dirname(fileURLToPath(import.meta.url));
 const browserDistFolder = resolve(serverDistFolder, '../browser');
@@ -64,6 +65,16 @@ app.get('**', (req, res, next) => {
             ...options,
             ...options?.sameSite ? {sameSite: options.sameSite.toLocaleLowerCase() as any} : {},
           })
+        },
+        {
+          provide: SYSTEM_LANGUAGES,
+          useValue: req.header('Accept-Language')
+              ?.split(/, ?/)
+              .map(_ => _.split(';q='))
+              .map(([_, q = 1]) => [_.split('-')[0], +q] as const)
+              .sort(([_, a], [__, b]) => b - a)
+              .reduce((acc, [_]) => [...acc, ...acc.includes(_) ? [] : [_]], [] as string[])
+            ?? []
         },
       ],
     })

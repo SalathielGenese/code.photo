@@ -4,6 +4,7 @@ import {takeUntilDestroyed, toObservable} from '@angular/core/rxjs-interop';
 import {filter, map, mergeMap, tap} from 'rxjs';
 import {HttpClient} from '@angular/common/http';
 import {GET_COOKIE, SET_COOKIE} from '../tokens/cookie.token';
+import {SYSTEM_LANGUAGES} from '../tokens/system-languages.token';
 
 @Injectable({providedIn: 'root'})
 export class L10nService {
@@ -41,6 +42,7 @@ export class L10nService {
                   domain?: string
                 }): void
               },
+              @Inject(SYSTEM_LANGUAGES) private readonly systemLanguages: string[],
               @Inject(GET_COOKIE) private readonly getCookie: { (name: string): string | undefined }) {
     this.#language = signal<string>(this.resolveLanguage());
     this.cache = computed(() => this.#cache()[this.#language()] ?? {});

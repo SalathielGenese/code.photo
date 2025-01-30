@@ -7,6 +7,7 @@ import {provideHttpClient, withFetch, withInterceptors} from '@angular/common/ht
 import {HOST} from './tokens/host.token';
 import {isPlatformServer} from '@angular/common';
 import {GET_COOKIE, SET_COOKIE} from './tokens/cookie.token';
+import {SYSTEM_LANGUAGES} from './tokens/system-languages.token';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -35,6 +36,12 @@ export const appConfig: ApplicationConfig = {
       },
       provide: HOST,
     },
+    ...globalThis.global === globalThis ? [] : [{
+      provide: SYSTEM_LANGUAGES,
+      useValue: navigator.languages
+        .map(_ => _.split('-')[0])
+        .reduce((acc, _) => [...acc, ...acc.includes(_) ? [] : [_]], [] as string[]),
+    }],
     ...globalThis.global === globalThis ? [] : [{
       provide: GET_COOKIE,
       useValue: ((name: string) => document.cookie.split('; ').find(_ => _.startsWith(`${name}=`))?.split('=')[1]),
