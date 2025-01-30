@@ -32,8 +32,8 @@ import {ActionsComponent} from '../components/actions.component';
   ],
   selector: 'section[appHomePage]',
   template: `
-    <aside class="[&_label_input]:focus-visible:outline-gray-300/50 [&_label_input]:focus-visible:outline-offset-2 [&_label_input]:focus-visible:outline-2
-                  [&_label_input]:border-gray-100/10 [&_label_input]:text-gray-100/60 [&_label_input]:border-b-1 [&_label_input]:border-t-1 [&_label_input]:py-1
+    <aside class="[&_label_input.ng-invalid]:outline-red-600/50 [&_label_input]:focus-visible:outline-gray-300/50 [&_label_input]:focus-visible:outline-offset-2 [&_label_input]:focus-visible:outline-2
+                  [&_label_input]:border-gray-100/10 [&_label_input]:text-gray-100/60 [&_label_input]:border-b-1  [&_label_input]:transition-all [&_label_input]:border-t-1 [&_label_input]:py-1
                   [&_label]:to-gray-700/10 [&_label]:from-transparent [&_label]:bg-linear-to-b [&_label]:rounded-sm
                   [&_label]:flex-col-reverse [&_label]:inline-flex [&_label]:gap-1 [&_label]:p-1
                   focus-within:translate-x-0 -translate-x-full -translate-x-full transition-all
