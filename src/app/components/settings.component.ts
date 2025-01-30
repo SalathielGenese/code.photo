@@ -4,23 +4,30 @@ import {L10nPipe} from '../pipes/l10n.pipe';
 import {Settings} from '../domains/settings.domain';
 import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 import {filter} from 'rxjs';
+import {faCog} from '@fortawesome/free-solid-svg-icons';
+import {FaIconComponent} from '@fortawesome/angular-fontawesome';
 
 @Component({
   standalone: true,
   imports: [
     L10nPipe,
+    FaIconComponent,
     ReactiveFormsModule,
   ],
   selector: '[appSettings]',
   template: `
     <form [formGroup]="form" class="contents">
       <button class="after:bg-stone-600/90 after:content-[''] after:absolute sm:after:h-12 after:left-0 md:after:h-12 sm:after:h-8 after:h-6
-                     after:-translate-y-1/2 after:aspect-square after:animate-ping after:rounded-full
+                     sm:-translate-y-[calc(100%+.75rem)] -translate-y-full origin-center left-full absolute top-1/2
                      bg-stone-600/90 aspect-square rounded-full md:h-12 sm:h-8 h-6
-                     -translate-y-1/2 origin-center left-full absolute top-1/2
-                     backdrop-blur-2xl cursor-pointer transition-all"
+                     after:aspect-square after:animate-ping after:rounded-full
+                     backdrop-blur-2xl cursor-pointer transition-all
+                     place-items-center justify-center grid"
               (click)="languageRef.parentElement?.parentElement?.parentElement?.focus()"
-      ></button>
+      >
+        <fa-icon class="border-t-transparent text-white/60 md:border-t-1 border-t-3 md:text-2xl text-sm"
+                 [icon]="icons.faCog"></fa-icon>
+      </button>
       <label>
         <input [placeholder]="settings()?.language"
                formControlName="language"
@@ -74,6 +81,9 @@ export class SettingsComponent implements OnInit {
     language: FormControl<string | null>;
     theme: FormControl<string | null>;
   }>;
+  protected readonly icons = {
+    faCog,
+  } as const;
 
   readonly #LINE_HIGHLIGHT_REGEX = /^(\s*[1-9]\d*\s*(-\s*[1-9]\d*\s*)?)(,\s*[1-9]\d*\s*(-\s*[1-9]\d*\s*)?)*$/;
 
