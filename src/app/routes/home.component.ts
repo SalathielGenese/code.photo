@@ -37,11 +37,11 @@ import {ActionsComponent} from '../components/actions.component';
                   [&_label]:to-gray-700/10 [&_label]:from-transparent [&_label]:bg-linear-to-b [&_label]:rounded-sm
                   [&_label]:flex-col-reverse [&_label]:inline-flex [&_label]:gap-1 [&_label]:p-1
                   focus-within:translate-x-0 -translate-x-full -translate-x-full transition-all
+                  focus-within:[&_button]:pointer-events-none focus-within:[&_button]:opacity-0
                   [&_label_span]:font-bold [&_label_span]:text-sm [&_label_span]:mb-1
                   text-gray-100/90 backdrop-blur-2xl bg-stone-700/50
                   inline-flex flex-col left-0 top-0 gap-4
-                  min-w-64 h-dvh fixed z-20 px-2 py-4
-                  focus-within:[&_button]:opacity-0"
+                  min-w-64 h-dvh fixed z-20 px-2 py-4"
            [(settings)]="settings"
            tabindex="100"
            appSettings
