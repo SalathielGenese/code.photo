@@ -1,4 +1,4 @@
-import {computed, DestroyRef, Inject, Injectable, Signal, signal, WritableSignal} from '@angular/core';
+import {computed, DestroyRef, Inject, Injectable, Optional, Signal, signal, WritableSignal} from '@angular/core';
 import {Router} from '@angular/router';
 import {takeUntilDestroyed, toObservable} from '@angular/core/rxjs-interop';
 import {filter, map, mergeMap, tap} from 'rxjs';
@@ -36,15 +36,15 @@ export class L10nService {
   constructor(http: HttpClient,
               destroyRef: DestroyRef,
               private readonly router: Router,
-              @Inject(SET_COOKIE) private readonly setCookie: {
+              @Optional() @Inject(SET_COOKIE) private readonly setCookie?: {
                 (name: string, value: string, options?: {
                   sameSite?: 'strict' | 'lax' | 'none';
                   partitioned?: boolean;
                   domain?: string
                 }): void
               },
-              @Inject(SYSTEM_LANGUAGES) private readonly systemLanguages: string[],
-              @Inject(GET_COOKIE) private readonly getCookie: { (name: string): string | undefined }) {
+              @Optional() @Inject(SYSTEM_LANGUAGES) private readonly systemLanguages?: string[],
+              @Optional() @Inject(GET_COOKIE) private readonly getCookie?: { (name: string): string | undefined }) {
     this.#language = signal<string>(this.resolveLanguage());
     this.cache = computed(() => this.#cache()[this.#language()] ?? {});
 
@@ -71,17 +71,18 @@ export class L10nService {
   }
 
   resolveLanguage() {
-    const cookie = this.getCookie(this.#LANGUAGE_COOKIE);
+    const cookie = this.getCookie?.(this.#LANGUAGE_COOKIE);
     if (L10nService.LANGUAGES.some(({tag}) => cookie === tag)) return cookie!;
 
     let resolved: string;
-    for (const language of this.systemLanguages) {
+    for (const language of this.systemLanguages ?? []) {
       if (L10nService.LANGUAGES.some(({tag}) => language === tag)) {
         resolved = language;
         break;
       }
     }
-    this.setCookie(this.#LANGUAGE_COOKIE, resolved ??= 'en');
+    resolved ??= 'en';
+    this.setCookie?.(this.#LANGUAGE_COOKIE, resolved);
     return resolved;
   }
 }
