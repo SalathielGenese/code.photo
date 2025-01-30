@@ -40,8 +40,10 @@ import {ActionsComponent} from '../components/actions.component';
                   [&_label_span]:font-bold [&_label_span]:text-sm [&_label_span]:mb-1
                   text-gray-100/90 backdrop-blur-2xl bg-stone-700/50
                   inline-flex flex-col left-0 top-0 gap-4
-                  min-w-64 h-dvh fixed z-20 px-2 py-4"
+                  min-w-64 h-dvh fixed z-20 px-2 py-4
+                  focus-within:[&_button]:opacity-0"
            [(settings)]="settings"
+           tabindex="100"
            appSettings
     ></aside>
 

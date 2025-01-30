@@ -14,10 +14,18 @@ import {filter} from 'rxjs';
   selector: '[appSettings]',
   template: `
     <form [formGroup]="form" class="contents">
+      <button class="after:bg-stone-600/90 after:content-[''] after:absolute sm:after:h-12 after:left-0 md:after:h-12 sm:after:h-8 after:h-6
+                     after:-translate-y-1/2 after:aspect-square after:animate-ping after:rounded-full
+                     bg-stone-600/90 aspect-square rounded-full md:h-12 sm:h-8 h-6
+                     -translate-y-1/2 origin-center left-full absolute top-1/2
+                     backdrop-blur-2xl cursor-pointer transition-all"
+              (click)="languageRef.parentElement?.parentElement?.parentElement?.focus()"
+      ></button>
       <label>
         <input [placeholder]="settings()?.language"
                formControlName="language"
                list="languages"
+               #languageRef
                type="text">
         <span>{{ 'settings.programming-language' | l10n }}</span>
         <datalist id="languages">
