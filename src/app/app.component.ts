@@ -26,7 +26,7 @@ import {FormsModule} from '@angular/forms';
 
     <router-outlet></router-outlet>
 
-    <footer class="justify-items-center place-items-center justify-center text-white/30 font-bold gap-1 mt-8 flex py-4">
+    <footer class="justify-items-center place-items-center justify-center text-white/30 font-bold gap-1 sm:py-12 py-8 flex py-4">
       <div class="contents">
         <a href="https://x.com/SalathielGenese" target="_blank">
           &#64;SalathielGenese
